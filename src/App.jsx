@@ -1,4 +1,5 @@
 import './App.css'
+import BonusPage from './components/BonusPage'
 import InfoPage from './components/InfoPage'
 import Navbar from './components/Navbar'
 
@@ -8,7 +9,7 @@ function App() {
     <>
     <Navbar/>
     <InfoPage/>
-    <div></div>
+    <BonusPage/>
     </>
   )
 }

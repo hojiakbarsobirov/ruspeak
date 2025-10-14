@@ -1,5 +1,5 @@
 import React from "react";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaTelegramPlane } from "react-icons/fa";
 
 const InfoPage = () => {
   return (
@@ -33,12 +33,26 @@ const InfoPage = () => {
           />
         </div>
 
-        {/* WhatsApp Info */}
-        <div className="border border-gray-300 rounded-xl p-3 flex items-center gap-3 bg-gray-50">
-          <FaWhatsapp className="text-green-500 text-2xl flex-shrink-0" />
-          <p className="text-sm text-gray-600 leading-snug">
-            Agar chet elda bo‘lsangiz, WhatsApp raqamingizni yozib qoldiring.
-          </p>
+        {/* WhatsApp & Telegram Info */}
+        <div className="border border-gray-300 rounded-xl p-3 flex flex-col gap-3 bg-gray-50">
+          {/* Icons and Text */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <FaWhatsapp className="text-green-500 text-2xl" />
+              <FaTelegramPlane className="text-sky-500 text-2xl" />
+            </div>
+            <p className="text-sm text-gray-600 leading-snug">
+              Agar chet elda bo‘lsangiz, WhatsApp yoki Telegram raqamingizni yozib
+              qoldiring.
+            </p>
+          </div>
+
+          {/* Extra phone input */}
+          <input
+            type="tel"
+            placeholder="WhatsApp yoki Telegram raqamingiz"
+            className="border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 transition-all text-gray-700 bg-white"
+          />
         </div>
 
         {/* Button */}
