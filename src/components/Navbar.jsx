@@ -11,7 +11,7 @@ const Navbar = () => {
         />
 
         <h2 className="text-[#1565C0] font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-snug">
-          3 oyda <span className="text-yellow-400">»</span> noldan <br className="hidden sm:block" /> 
+          60 kunda <span className="text-yellow-400">»</span> noldan <br className="hidden sm:block" /> 
           razgovorgacha o'rgatamiz
         </h2>
 
