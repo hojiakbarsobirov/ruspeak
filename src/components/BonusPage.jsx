@@ -1,5 +1,6 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
+import book from '../../public/book.png'
 
 const BonusPage = () => {
   return (
