@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className="w-full min-h-[40vh] bg-white flex flex-col justify-center items-center relative overflow-hidden">
       <div className="container mx-auto flex flex-col justify-center items-center text-center px-4 z-10">
         <img
-          src="/public/logotip.png"
+          src="/logotip.png"
           alt="logo"
           className="w-[140px] sm:w-[160px] md:w-[180px] mb-6"
         />
