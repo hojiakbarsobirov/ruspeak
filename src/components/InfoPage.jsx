@@ -8,16 +8,16 @@ const InfoPage = () => {
   const [phone, setPhone] = useState("");
   const [extraPhone, setExtraPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (!name || !phone) {
       alert("Iltimos, ism va telefon raqamingizni kiriting!");
       return;
     }
 
     setLoading(true);
+    setSuccess(false);
 
     try {
       await addDoc(collection(db, "registrations"), {
@@ -26,10 +26,11 @@ const InfoPage = () => {
         extraPhone,
         createdAt: new Date().toISOString(),
       });
-      alert("✅ Ma’lumot muvaffaqiyatli yuborildi!");
+
       setName("");
       setPhone("");
       setExtraPhone("");
+      setSuccess(true);
     } catch (err) {
       console.error(err);
       alert("❌ Xatolik yuz berdi!");
@@ -39,24 +40,26 @@ const InfoPage = () => {
   };
 
   return (
-    <section className="w-full min-h-screen bg-white flex flex-col justify-center items-center px-4 py-10">
-      <h2 className="text-center text-lg sm:text-xl font-medium mb-6 leading-relaxed">
-        Onlayn darsga yozilish uchun hoziroq <br /> raqamingizni qoldiring
+    <section className="w-full min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex flex-col justify-center items-center px-4 py-10">
+      {/* Title */}
+      <h2 className="text-center text-2xl sm:text-3xl font-semibold text-gray-800 mb-6 leading-snug">
+        Onlayn darsga yozilish uchun hoziroq <br className="hidden sm:block" />
+        raqamingizni qoldiring 📘
       </h2>
 
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-4"
-      >
+      {/* Form */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col gap-5">
+        {/* Name */}
         <input
           type="text"
           placeholder="Ismingiz"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500 transition-all text-gray-700"
+          className="border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-orange-500 transition-all text-gray-700 w-full"
         />
 
-        <div className="flex items-center border border-gray-300 rounded-xl px-4 py-3 gap-2 focus-within:border-blue-500 transition-all">
+        {/* Main phone */}
+        <div className="flex items-center border border-gray-300 rounded-xl px-4 py-3 gap-2 focus-within:border-orange-500 transition-all">
           <img
             src="https://flagcdn.com/w40/uz.png"
             alt="Uzbekistan flag"
@@ -72,6 +75,7 @@ const InfoPage = () => {
           />
         </div>
 
+        {/* Extra phone */}
         <div className="border border-gray-300 rounded-xl p-3 flex flex-col gap-3 bg-gray-50">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -79,8 +83,8 @@ const InfoPage = () => {
               <FaTelegramPlane className="text-sky-500 text-2xl" />
             </div>
             <p className="text-sm text-gray-600 leading-snug">
-              Agar chet elda bo‘lsangiz, WhatsApp yoki Telegram raqamingizni yozib
-              qoldiring.
+              Agar chet elda bo‘lsangiz, WhatsApp yoki Telegram raqamingizni
+              yozib qoldiring.
             </p>
           </div>
 
@@ -93,14 +97,31 @@ const InfoPage = () => {
           />
         </div>
 
+        {/* Button */}
         <button
-          type="submit"
+          type="button"
+          onClick={handleSubmit}
           disabled={loading}
-          className="bg-[#FF9800] hover:bg-[#f48b00] text-white font-semibold py-3 rounded-xl text-center transition-all"
+          className={`${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-orange-500 hover:bg-orange-600"
+          } text-white font-semibold py-3 rounded-xl transition-all shadow-md hover:shadow-lg`}
         >
           {loading ? "Yuborilmoqda..." : "Rus tilini hoziroq boshlang!"}
         </button>
-      </form>
+
+        {success && (
+          <p className="text-green-600 text-center mt-2 font-medium">
+            ✅ Ma’lumot muvaffaqiyatli yuborildi!
+          </p>
+        )}
+      </div>
+
+      {/* Footer */}
+      <p className="text-center text-gray-400 text-sm mt-8">
+        © 2025 Ruspeak. Barcha huquqlar himoyalangan.
+      </p>
     </section>
   );
 };
