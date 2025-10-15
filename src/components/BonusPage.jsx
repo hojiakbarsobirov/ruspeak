@@ -1,6 +1,5 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import book from '../../public/book.png'
 
 const BonusPage = () => {
   return (
@@ -23,7 +22,7 @@ const BonusPage = () => {
         <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
           {/* Kitob rasmi */}
           <img
-            src="book.png"
+            src="/book.png"
             alt="Book"
             className="w-[260px] sm:w-[300px] object-contain"
           />
