@@ -36,7 +36,10 @@ const BonusPage = () => {
           </p>
 
           <p className="mt-2">
-            va “Ko‘chada gaplashamiz”
+            va{" "}
+            <span className="text-orange-400 font-semibold">
+              “Ko‘chada gaplashamiz”
+            </span>
             <span
               role="img"
               aria-label="headphones"
