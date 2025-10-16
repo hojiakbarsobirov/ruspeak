@@ -40,9 +40,9 @@ const InfoPage = () => {
   };
 
   return (
-    <section className="w-full min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex flex-col justify-center items-center px-4 py-10">
+    <section data-aos="fade-up" className="w-full min-h-screen  flex flex-col justify-center items-center px-4 py-10">
       {/* Title */}
-      <h2 className="text-center text-2xl sm:text-3xl font-semibold text-gray-800 mb-6 leading-snug">
+      <h2 className="text-center text-2xl sm:text-3xl font-semibold text-white mb-6 leading-snug">
         Onlayn darsga yozilish uchun hoziroq <br className="hidden sm:block" />
         raqamingizni qoldiring 📘
       </h2>
@@ -119,7 +119,7 @@ const InfoPage = () => {
       </div>
 
       {/* Footer */}
-      <p className="text-center text-gray-400 text-sm mt-8">
+      <p className="text-center text-gray-200 text-sm mt-8">
         © 2025 Ruspeak. Barcha huquqlar himoyalangan.
       </p>
     </section>

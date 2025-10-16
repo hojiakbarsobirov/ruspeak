@@ -1,47 +1,33 @@
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const BonusPage = () => {
   return (
-    <section className="w-full min-h-auto bg-white flex flex-col justify-center items-center px-4 py-10 overflow-hidden relative">
-      {/* Fonda RUSPEAK.UZ */}
-      <div className="absolute inset-0 flex justify-center items-center text-gray-100 text-[6rem] sm:text-[8rem] font-extrabold opacity-10 select-none">
-        RUSPEAK.UZ
+    <section className="relative w-full min-h-[60vh] flex flex-col justify-center items-center overflow-hidden text-center px-4">
+      {/* Animated background */}
+      <div className="absolute inset-0  animate-gradient"></div>
+
+      {/* Content */}
+      <div data-aos="fade-up" className="relative z-10 flex flex-col md:flex-row justify-center items-center gap-8 md:gap-14 text-white">
+        <img
+          src="/book1.png"
+          alt="Bonus book"
+          className="w-[250px] sm:w-[300px] md:w-[380px] lg:w-[420px] drop-shadow-lg"
+        />
+        <p className="font-medium text-lg sm:text-xl md:text-2xl leading-relaxed md:w-[400px] lg:w-[550px]">
+          24 soat ichida <br /> kursga yoziling va <br /> “Ko‘chada gaplashamiz”
+          audio kitobini <br />
+          <span className="font-semibold text-yellow-300">
+            bepul qo‘lga kiriting!
+          </span>
+        </p>
       </div>
 
-      {/* Asosiy konteyner */}
-      <div className="relative bg-white rounded-2xl max-w-4xl w-full flex flex-col items-center z-10 p-6 gap-10">
-        {/* Logo tepada */}
-        <img
-          src="/logotip.png"
-          alt="RuSpeak logo"
-          className="w-[220px] sm:w-[260px] object-contain"
-        />
-
-        {/* Kitob + matn yonma-yon */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
-          {/* Kitob rasmi */}
-          <img
-            src="/book.png"
-            alt="Book"
-            className="w-[260px] sm:w-[300px] object-contain"
-          />
-
-          {/* Matn */}
-          <p className="text-[#26338C] text-center sm:text-left font-medium text-[15px] sm:text-[17px] leading-snug max-w-[320px]">
-            24 soat ichida kursga yoziling va{" "}
-            <span className="text-[#F50057] font-bold">57.000</span> so‘mlik
-            mini-audiyo kitobga bepul ega bo‘ling!
-          </p>
-        </div>
-
-        {/* BONUS tugmasi */}
-        <div className="flex flex-col items-center gap-2">
-          <del className="text-gray-400 text-md font-semibold">57.000</del>
-          <button className="bg-[#2196F3] hover:bg-[#1e88e5] text-white font-bold text-lg px-10 py-2 rounded-xl flex items-center gap-2 transition-all">
-            BONUS <FaArrowRight className="text-white" />
-          </button>
-        </div>
+      {/* Button */}
+      <div className="relative z-10 mt-8">
+        <Link target="_blank" to="https://t.me/Ruspeak_admin">
+          <button class="beautiful-button">Bonus !</button>
+        </Link>
       </div>
     </section>
   );
