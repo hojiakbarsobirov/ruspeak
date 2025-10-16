@@ -14,27 +14,17 @@
   position: relative;
   display: inline-block;
   background: linear-gradient(to bottom, #1b1c3f, #4a4e91);
- /* Gradient background */
   color: white;
- /* White text color */
-  font-family: "Segoe UI", sans-serif;
- /* Stylish and legible font */
-  font-weight: bold;
+  font-family: "Poppins", "Segoe UI", sans-serif; /* ✅ Chiroyli, zamonaviy shrift */
+  font-weight: 600;
   font-size: 18px;
- /* Large font size */
   border: none;
- /* No border */
   border-radius: 30px;
- /* Rounded corners */
   padding: 14px 28px;
- /* Large padding */
   cursor: pointer;
- /* Cursor on hover */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
- /* Subtle shadow */
   animation: button-shimmer 2s infinite;
   transition: all 0.3s ease-in-out;
- /* Smooth transition */
 }
 
 /* Hover animation */
@@ -55,7 +45,6 @@
   0% {
     background-position: left top;
   }
-
   100% {
     background-position: right bottom;
   }
@@ -66,7 +55,6 @@
   0% {
     background-position: left top;
   }
-
   100% {
     background-position: right bottom;
   }
