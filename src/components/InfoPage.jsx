@@ -40,9 +40,15 @@ const InfoPage = () => {
   };
 
   return (
-    <section data-aos="fade-up" className="w-full min-h-screen  flex flex-col justify-center items-center px-4 py-10">
+    <section
+      data-aos="fade-up"
+      className="w-full min-h-screen flex flex-col justify-center items-center px-4 py-10"
+    >
       {/* Title */}
-      <h2 className="text-center text-2xl sm:text-3xl font-semibold text-white mb-6 leading-snug">
+      <h2
+        className="text-center text-2xl sm:text-3xl font-semibold text-white mb-6 leading-snug"
+        style={{ textShadow: "0 2px 8px rgba(0, 0, 0, 0.4)" }}
+      >
         Onlayn darsga yozilish uchun hoziroq <br className="hidden sm:block" />
         raqamingizni qoldiring 📘
       </h2>
@@ -79,10 +85,19 @@ const InfoPage = () => {
         <div className="border border-gray-300 rounded-xl p-3 flex flex-col gap-3 bg-gray-50">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 flex-shrink-0">
-              <FaWhatsapp className="text-green-500 text-2xl" />
-              <FaTelegramPlane className="text-sky-500 text-2xl" />
+              <FaWhatsapp
+                className="text-green-500 text-2xl"
+                style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
+              />
+              <FaTelegramPlane
+                className="text-sky-500 text-2xl"
+                style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
+              />
             </div>
-            <p className="text-sm text-gray-600 leading-snug">
+            <p
+              className="text-sm text-gray-600 leading-snug"
+              style={{ textShadow: "0 1px 3px rgba(0, 0, 0, 0.15)" }}
+            >
               Agar chet elda bo‘lsangiz, WhatsApp yoki Telegram raqamingizni
               yozib qoldiring.
             </p>
@@ -107,19 +122,26 @@ const InfoPage = () => {
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-orange-500 hover:bg-orange-600"
           } text-white font-semibold py-3 rounded-xl transition-all shadow-md hover:shadow-lg`}
+          style={{ textShadow: "0 1px 3px rgba(0,0,0,0.25)" }}
         >
           {loading ? "Yuborilmoqda..." : "Rus tilini hoziroq boshlang!"}
         </button>
 
         {success && (
-          <p className="text-green-600 text-center mt-2 font-medium">
+          <p
+            className="text-green-600 text-center mt-2 font-medium"
+            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.2)" }}
+          >
             ✅ Ma’lumot muvaffaqiyatli yuborildi!
           </p>
         )}
       </div>
 
       {/* Footer */}
-      <p className="text-center text-gray-200 text-sm mt-8">
+      <p
+        className="text-center text-gray-200 text-sm mt-8"
+        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}
+      >
         © 2025 Ruspeak. Barcha huquqlar himoyalangan.
       </p>
     </section>
