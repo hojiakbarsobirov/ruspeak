@@ -10,7 +10,7 @@ const BonusPage = () => {
       {/* Content */}
       <div data-aos="fade-up" className="relative z-10 flex flex-col md:flex-row justify-center items-center gap-8 md:gap-14 text-white">
         <img
-          src="/book1.png"
+          src="/book3.png"
           alt="Bonus book"
           className="w-[250px] sm:w-[300px] md:w-[380px] lg:w-[420px] drop-shadow-lg"
         />
