@@ -53,7 +53,7 @@ const InfoPage = () => {
       setName("");
       setPhone("");
       setExtraPhone("");
-      setTimeout(() => setSuccess(false), 3000);
+      setTimeout(() => setSuccess(false), 3000); // button rangini qayta qizilga o‘tkazish
     } catch (error) {
       console.error("Xato yuz berdi:", error);
       alert("Ma'lumot yuborilmadi, qayta urinib ko'ring.");
@@ -164,9 +164,11 @@ const InfoPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-red-500 text-md hover:bg-red-600 text-white py-2 px-6 rounded-full 
-             shadow-[0_0_15px_rgba(239,68,68,0.6)] transition-all duration-300 
-             disabled:opacity-50"
+              className={`${
+                success
+                  ? "bg-green-500 hover:bg-green-600 shadow-[0_0_15px_rgba(34,197,94,0.6)]"
+                  : "bg-red-500 hover:bg-red-600 shadow-[0_0_15px_rgba(239,68,68,0.6)]"
+              } text-md text-white py-2 px-6 rounded-full transition-all duration-300 disabled:opacity-50`}
             >
               {loading ? "Yuborilmoqda..." : "Ro'yxatdan o'tish"}
             </button>
