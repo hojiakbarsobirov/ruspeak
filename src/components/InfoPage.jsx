@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaUser, FaWhatsapp, FaTelegramPlane } from "react-icons/fa";
 import { db } from "../firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import "../App.css";
 
 const InfoPage = () => {
   const [timeLeft, setTimeLeft] = useState(60);
@@ -62,7 +63,7 @@ const InfoPage = () => {
   };
 
   return (
-    <section className="w-full h-screen flex flex-col justify-center items-center relative px-4">
+    <section className="w-full h-auto flex flex-col justify-center items-center relative px-4">
       {/* Banner */}
       <div className="absolute w-full h-[600px] lg:w-[70%] lg:h-[450px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <img
@@ -178,19 +179,19 @@ const InfoPage = () => {
           </form>
         </div>
 
-       {/* Book promo box */}
-<div className="bg-gray-200 w-full max-w-[400px] h-[120px] rounded-xl px-2 flex flex-row justify-between items-center mt-4 relative">
-  <h3 className="w-[65%] text-violet-600 font-medium text-center text-sm pr-5 drop-shadow-md">
-    Hoziroq raqamingizni qoldiring va ko'chada gaplashamiz audio
-    kitobini bepul qo'lga kiriting
-  </h3>
-  <img
-    className="w-[120px] sm:w-[180px] object-contain"
-    src="/book3.png"
-    alt="book"
-  />
-</div>
-
+        {/* Book promo box */}
+        <div className="bg-blue-200 w-full max-w-[400px] h-[120px] rounded-xl px-2 flex flex-row justify-between items-center mt-4 relative">
+          <h3 className="w-[65%] text-gray-600 font-medium text-center text-sm pr-5 text-shadow-strong">
+            Hoziroq raqamingizni qoldiring va{" "}
+            <span className="font-bold">"ko'chada gaplashamiz</span> audio 🎧
+            kitobini bepul qo'lga kiriting
+          </h3>
+          <img
+            className="w-[120px] sm:w-[180px] object-contain"
+            src="/book3.png"
+            alt="book"
+          />
+        </div>
       </header>
     </section>
   );
