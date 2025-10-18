@@ -75,7 +75,7 @@ const InfoPage = () => {
 
       <header className="flex flex-col items-center gap-4 relative z-10">
         {/* Form Box */}
-        <div className="bg-white w-[250px] h-[430px] p-4 rounded-2xl shadow-2xl flex flex-col items-center text-center">
+        <div data-aos="fade-up" className="bg-white w-[250px] h-[430px] p-4 rounded-2xl shadow-2xl flex flex-col items-center text-center">
           <h2
             className="text-lg text-blue-800 font-bold mb-2"
             style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.5)" }}
@@ -180,7 +180,7 @@ const InfoPage = () => {
         </div>
 
         {/* Book promo box */}
-        <div className="bg-blue-200 w-full max-w-[400px] h-[120px] rounded-xl px-2 flex flex-row justify-between items-center mt-4 relative">
+        <div data-aos="fade-up" className="bg-blue-200 w-full max-w-[400px] h-[120px] rounded-xl px-2 flex flex-row justify-between items-center mt-4 relative">
           <h3 className="w-[65%] text-gray-600 font-medium text-center text-sm pr-5 text-shadow-strong">
             Hoziroq raqamingizni qoldiring va{" "}
             <span className="font-bold">"ko'chada gaplashamiz</span> audio 🎧
