@@ -84,30 +84,35 @@ const InfoPage = () => {
           <p className="mb-4 text-gray-600 text-sm">
             Hoziroq raqamingizni qoldiring
           </p>
-         <div className="flex gap-2 mb-6 text-center">
-  {/* Soatlar */}
-  <div className="flex flex-col items-center">
-    <span className="text-3xl font-mono font-bold text-red-600">{String(Math.floor(timeLeft / 3600)).padStart(2, "0")}</span>
-    <span className="text-xs text-gray-500">Soat</span>
-  </div>
+          <div className="flex gap-2 mb-6 text-center">
+            {/* Soatlar */}
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-mono font-bold text-red-600">
+                {String(Math.floor(timeLeft / 3600)).padStart(2, "0")}
+              </span>
+              <span className="text-xs text-gray-500">Soat</span>
+            </div>
 
-  <span className="text-3xl font-bold text-red-600">:</span>
+            <span className="text-3xl font-bold text-red-600">:</span>
 
-  {/* Minutlar */}
-  <div className="flex flex-col items-center">
-    <span className="text-3xl font-mono font-bold text-red-600">{String(Math.floor((timeLeft % 3600) / 60)).padStart(2, "0")}</span>
-    <span className="text-xs text-gray-500">Minut</span>
-  </div>
+            {/* Minutlar */}
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-mono font-bold text-red-600">
+                {String(Math.floor((timeLeft % 3600) / 60)).padStart(2, "0")}
+              </span>
+              <span className="text-xs text-gray-500">Minut</span>
+            </div>
 
-  <span className="text-3xl font-bold text-red-600">:</span>
+            <span className="text-3xl font-bold text-red-600">:</span>
 
-  {/* Sekundlar */}
-  <div className="flex flex-col items-center">
-    <span className="text-3xl font-mono font-bold text-red-600">{String(timeLeft % 60).padStart(2, "0")}</span>
-    <span className="text-xs text-gray-500">Secund</span>
-  </div>
-</div>
-
+            {/* Sekundlar */}
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-mono font-bold text-red-600">
+                {String(timeLeft % 60).padStart(2, "0")}
+              </span>
+              <span className="text-xs text-gray-500">Secund</span>
+            </div>
+          </div>
 
           <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
             {/* Ism input */}
@@ -173,18 +178,19 @@ const InfoPage = () => {
           </form>
         </div>
 
-        {/* Book promo box */}
-        <div className="bg-gray-100 w-[400px] h-[120px] rounded-xl px-2 flex justify-start items-center relative mt-4">
-          <h3 className="w-[70%] font-medium text-center text-sm pr-5">
-            Hoziroq raqamingizni qoldiring va ko'chada gaplashamiz audio
-            kitobini bepul qo'lga kiriting
-          </h3>
-          <img
-            className="w-[200px] absolute right-[-20px]"
-            src="/book3.png"
-            alt="book"
-          />
-        </div>
+       {/* Book promo box */}
+<div className="bg-gray-200 w-full max-w-[400px] h-[120px] rounded-xl px-2 flex flex-row justify-between items-center mt-4 relative">
+  <h3 className="w-[65%] text-violet-600 font-medium text-center text-sm pr-5 drop-shadow-md">
+    Hoziroq raqamingizni qoldiring va ko'chada gaplashamiz audio
+    kitobini bepul qo'lga kiriting
+  </h3>
+  <img
+    className="w-[120px] sm:w-[180px] object-contain"
+    src="/book3.png"
+    alt="book"
+  />
+</div>
+
       </header>
     </section>
   );
