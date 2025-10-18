@@ -18,10 +18,8 @@ function App() {
     <>
     <Navbar/>
     
-    <div className='bg-gradient-to-r from-indigo-400 via-blue-400 to-purple-400'>
     <InfoPage/>
     <BonusPage/>
-    </div>
     </>
   )
 }

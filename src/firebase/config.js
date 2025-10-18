@@ -2,13 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_ID,
-  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
+  apiKey: "AIza...",
+  authDomain: "ruspeak-5c210.firebaseapp.com",
+  projectId: "ruspeak-5c210",
+  storageBucket: "ruspeak-5c210.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef12345"
 };
 
 const app = initializeApp(firebaseConfig);
