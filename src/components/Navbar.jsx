@@ -10,7 +10,7 @@ const Navbar = () => {
           className="w-[140px] sm:w-[160px] md:w-[180px] mb-6"
         />
 
-        <h2 className="text-blue-800 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-snug">
+        <h2 data-aos="fade-down" className="text-blue-800 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-snug">
           60 kunda <span className="text-yellow-400">»</span> noldan <br className="hidden sm:block" /> 
           razgovorgacha o'rgatamiz
         </h2>
