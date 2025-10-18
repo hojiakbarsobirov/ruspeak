@@ -180,10 +180,10 @@ const InfoPage = () => {
         </div>
 
         {/* Book promo box */}
-        <div data-aos="fade-up" className="bg-blue-200 w-full max-w-[400px] h-[120px] rounded-xl px-2 flex flex-row justify-between items-center mt-4 relative">
-          <h3 className="w-[65%] text-gray-600 font-medium text-center text-sm pr-5 text-shadow-strong">
+        <div data-aos="fade-up" className="bg-blue-200 w-full max-w-[400px] h-[120px] rounded-xl px-0 flex flex-row justify-between items-center mt-4 relative">
+          <h3 className="w-[600px] text-gray-600 font-medium text-center text-sm pl-5 text-shadow-strong">
             Hoziroq raqamingizni qoldiring va{" "}
-            <span className="font-bold">"ko'chada gaplashamiz</span> audio 🎧
+            <span className="font-bold">"Ko'chada gaplashamiz"</span> audio 🎧
             kitobini bepul qo'lga kiriting
           </h3>
           <img
