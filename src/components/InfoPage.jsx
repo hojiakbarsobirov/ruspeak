@@ -152,7 +152,7 @@ const InfoPage = () => {
               <FaWhatsapp className="absolute top-1/2 left-2.5 -translate-y-1/2 text-green-500 text-lg" />
               <FaTelegramPlane className="absolute top-1/2 left-7 -translate-y-1/2 text-blue-500 text-lg" />
               <input
-                type="tel"
+                type="text"
                 placeholder="WhatsApp yoki Telegram raqamingiz"
                 value={extraPhone}
                 onChange={(e) => setExtraPhone(e.target.value)}
@@ -187,7 +187,7 @@ const InfoPage = () => {
             kitobini bepul qo'lga kiriting
           </h3>
           <img
-            className="w-[120px] sm:w-[180px] object-contain"
+            className="w-[180px] sm:w-[180px] object-contain"
             src="/book3.png"
             alt="book"
           />
