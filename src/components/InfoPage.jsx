@@ -14,7 +14,6 @@ const InfoPage = () => {
 
   // Meta Pixel kodini yuklash
   useEffect(() => {
-    // Meta Pixel Script
     !function(f,b,e,v,n,t,s) {
       if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -28,7 +27,6 @@ const InfoPage = () => {
     window.fbq('init', '1543301330183143');
     window.fbq('track', 'PageView');
 
-    // Noscript img tag
     const noscript = document.createElement('noscript');
     const img = document.createElement('img');
     img.height = 1;
@@ -49,7 +47,8 @@ const InfoPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !phone) {
+    // ✅ Barcha maydonlar majburiy
+    if (!name.trim() || !phone.trim() || !extraPhone.trim()) {
       alert("Iltimos barcha maydonlarni to'ldiring");
       return;
     }
@@ -78,7 +77,6 @@ const InfoPage = () => {
 
   return (
     <section className="w-full h-auto flex flex-col justify-center items-center relative px-4 lg:px-0">
-      {/* Banner */}
       <div className="absolute inset-0 flex justify-center items-center z-0">
         <img
           src="/banner-img.png"
@@ -88,7 +86,6 @@ const InfoPage = () => {
       </div>
 
       <header className="flex flex-col items-center gap-6 relative z-10 w-full max-w-[900px]">
-        {/* Form Box */}
         <div
           data-aos="fade-up"
           className="bg-white w-full max-w-[350px] sm:max-w-[400px] md:max-w-[350px] p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center transition-all duration-500"
@@ -100,10 +97,9 @@ const InfoPage = () => {
             Onlayn darsga yozilish uchun hoziroq
           </h2>
           <p className="mb-5 text-gray-600 text-sm sm:text-base">
-             raqamingizni qoldiring
+            raqamingizni qoldiring
           </p>
 
-          {/* Countdown */}
           <div className="flex gap-3 mb-6 text-center justify-center">
             <div className="flex flex-col items-center">
               <span className="text-3xl md:text-4xl font-mono font-bold text-red-600">
@@ -127,9 +123,7 @@ const InfoPage = () => {
             </div>
           </div>
 
-          {/* Form */}
           <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
-            {/* Name */}
             <div className="relative w-full">
               <FaUser className="absolute top-1/2 left-3 -translate-y-1/2 text-blue-800 text-lg md:text-xl" />
               <input
@@ -137,11 +131,11 @@ const InfoPage = () => {
                 placeholder="Ismingiz"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
                 className="w-full pl-10 border text-sm md:text-base border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            {/* Phone */}
             <div className="relative w-full flex items-center">
               <img
                 src="/uzb-flag.png"
@@ -156,11 +150,11 @@ const InfoPage = () => {
                 placeholder="00-000-0000"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                required
                 className="w-full pl-20 sm:pl-24 md:pl-28 border text-sm md:text-base border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            {/* WhatsApp / Telegram */}
             <div className="relative w-full flex items-center">
               <FaWhatsapp className="absolute top-1/2 left-2.5 -translate-y-1/2 text-green-500 text-lg md:text-xl" />
               <FaTelegramPlane className="absolute top-1/2 left-7 -translate-y-1/2 text-blue-500 text-lg md:text-xl" />
@@ -169,11 +163,11 @@ const InfoPage = () => {
                 placeholder="WhatsApp yoki Telegram raqamingiz"
                 value={extraPhone}
                 onChange={(e) => setExtraPhone(e.target.value)}
+                required
                 className="w-full pl-14 md:pl-16 border text-sm md:text-base border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -194,7 +188,6 @@ const InfoPage = () => {
           </form>
         </div>
 
-        {/* Book promo */}
         <div
           data-aos="fade-up"
           className="bg-blue-200 w-full max-w-[450px] sm:max-w-[500px] h-[120px] sm:h-[140px] rounded-xl px-0 flex flex-row justify-between items-center mt-6 transition-all duration-500"
