@@ -240,7 +240,7 @@ const InfoPage = () => {
             bepul qo'lga kiriting
           </h3>
           <img
-            className="w-[200px] sm:w-[220px] object-contain"
+            className="w-[180px] sm:w-[220px] object-contain"
             src="/book3.png"
             alt="book"
           />
