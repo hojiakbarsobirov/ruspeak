@@ -45,11 +45,56 @@ const InfoPage = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Telefon raqamni formatlash funksiyasi
+  const formatPhoneNumber = (value) => {
+    // Faqat raqamlarni olish
+    const numbers = value.replace(/\D/g, "");
+    
+    // Agar 998 bilan boshlanmasa, bo'sh qaytarish
+    if (numbers.length === 0) return "";
+    
+    // 998 dan keyingi raqamlar
+    let formatted = "+998";
+    const afterCode = numbers.startsWith("998") ? numbers.slice(3) : numbers;
+    
+    if (afterCode.length > 0) {
+      formatted += " " + afterCode.slice(0, 2);
+    }
+    if (afterCode.length > 2) {
+      formatted += " " + afterCode.slice(2, 5);
+    }
+    if (afterCode.length > 5) {
+      formatted += " " + afterCode.slice(5, 7);
+    }
+    if (afterCode.length > 7) {
+      formatted += " " + afterCode.slice(7, 9);
+    }
+    
+    return formatted;
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    
+    // Agar foydalanuvchi hammasi o'chirayotgan bo'lsa
+    if (value === "" || value === "+") {
+      setPhone("");
+      return;
+    }
+    
+    const formatted = formatPhoneNumber(value);
+    setPhone(formatted);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // ✅ Barcha maydonlar majburiy
-    if (!name.trim() || !phone.trim() || !extraPhone.trim()) {
-      alert("Iltimos barcha maydonlarni to'ldiring");
+    
+    // Telefon raqam formatini tekshirish
+    const phoneNumbers = phone.replace(/\D/g, "");
+    
+    // ✅ Barcha maydonlar majburiy va telefon to'liq bo'lishi kerak (12 ta raqam: 998 + 9 ta)
+    if (!name.trim() || phoneNumbers.length !== 12 || !extraPhone.trim()) {
+      alert("Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting");
       return;
     }
 
@@ -142,16 +187,13 @@ const InfoPage = () => {
                 alt="Uzbekistan Flag"
                 className="absolute top-1/2 left-3 -translate-y-1/2 w-5 sm:w-6 md:w-7 rounded-sm"
               />
-              <span className="absolute left-10 sm:left-12 top-1/2 -translate-y-1/2 text-gray-700 text-sm md:text-base">
-                +998
-              </span>
               <input
                 type="tel"
-                placeholder="00-000-0000"
+                placeholder="+998 99 999 99 99"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={handlePhoneChange}
                 required
-                className="w-full pl-20 sm:pl-24 md:pl-28 border text-sm md:text-base border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-12 sm:pl-14 md:pl-16 border text-sm md:text-base border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
