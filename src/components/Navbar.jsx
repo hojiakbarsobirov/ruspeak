@@ -14,10 +14,6 @@ const Navbar = () => {
           60 kunda <span className="text-yellow-400">»</span> noldan <br className="hidden sm:block" /> 
           razgovorgacha o'rgatamiz
         </h2>
-
-        {/* <div className="mt-6 bg-indigo-500 text-white font-semibold text-sm sm:text-base px-4 py-2 rounded-full shadow-lg">
-          100% KAFOLAT
-        </div> */}
       </div>
     </nav>
   );
