@@ -95,7 +95,7 @@ const PremiumLandingPage = () => {
   const features = [
     {
       icon: <FaUsers className="w-8 h-8" />,
-      title: "500+ O'quvchi",
+      title: "200+ O'quvchi",
       desc: "Muvaffaqiyatli bitiruvchilar",
     },
     {
@@ -328,19 +328,19 @@ const PremiumLandingPage = () => {
               </div>
 
               {/* Gift Card */}
-              <div className="bg-gradient-to-r from-indigo-500 to-blue-600 rounded-3xl p-4 shadow-2xl text-white transform hover:scale-105 transition-all duration-300">
+              <div className="bg-gradient-to-r from-indigo-500 to-blue-600 rounded-3xl p-0 shadow-2xl text-white transform hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <div className="p-0">
                     <img
                       src="/book3.png"
                       alt="Bepul kitob"
-                      className="w-32 h-32 object-contain"
+                      className="w-36 h-36 object-contain"
                     />
                   </div>
                   <div>
                     <h4 className="text-xl font-bold mb-2">BEPUL SOVG'A!</h4>
                     <p className="text-sm">
-                      "Ko'chada gaplashamiz" audio kitobini bepul yuklab oling!
+                      Hoziroq ro'yxatdan o'ting va "Ko'chada gaplashamiz" audio kitobini bepul qo'lga kiriting
                     </p>
                   </div>
                 </div>
@@ -398,7 +398,7 @@ const PremiumLandingPage = () => {
           <div className="mt-20 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl p-12 shadow-2xl">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
               {[
-                { num: "500+", label: "O'quvchilar" },
+                { num: "200+", label: "O'quvchilar" },
                 { num: "60", label: "Kun davom etadi" },
                 { num: "98%", label: "Qoniqish darajasi" },
                 { num: "24/7", label: "Yordam" },
