@@ -14,6 +14,8 @@ import {
   FaBullseye,
   FaPaperPlane,
 } from "react-icons/fa";
+import { db } from "../firebase/config";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const PremiumLandingPage = () => {
   const [timeLeft, setTimeLeft] = useState(60);
@@ -78,7 +80,13 @@ const PremiumLandingPage = () => {
     setLoading(true);
 
     try {
-      // Firebase logic here
+      await addDoc(collection(db, "registrations"), {
+        name: name.trim(),
+        phone: phone,
+        extraPhone: extraPhone.trim(),
+        createdAt: serverTimestamp(),
+      });
+
       setSuccess(true);
       setName("");
       setPhone("");
