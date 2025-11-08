@@ -222,7 +222,7 @@ const PremiumLandingPage = () => {
               </div>
 
               {/* Countdown Timer */}
-              <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-lg">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-lg">
                 <div className="flex justify-center gap-2 sm:gap-4">
                   {[
                     { val: Math.floor(timeLeft / 3600), label: "Soat" },
