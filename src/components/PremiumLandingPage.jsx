@@ -412,7 +412,7 @@ const PremiumLandingPage = () => {
               {[
                 { num: "200+", label: "O'quvchilar" },
                 { num: "60", label: "Kun davom etadi" },
-                { num: "98%", label: "Qoniqish darajasi" },
+                { num: "95%", label: "Mamnun o'quvchilar" },
                 { num: "24/7", label: "Yordam" },
               ].map((stat, idx) => (
                 <div
