@@ -362,7 +362,7 @@ const PremiumLandingPage = () => {
                     />
                   </div>
                   <div>
-                    <h4 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+                    <h4 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2" style={{ textShadow: "2px 2px 5px rgba(0,0,0,0.5)" }}>
                       BEPUL SOVG'A!
                     </h4>
                     <p
