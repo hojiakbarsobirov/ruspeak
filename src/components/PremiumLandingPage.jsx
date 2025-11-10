@@ -365,9 +365,15 @@ const PremiumLandingPage = () => {
                     <h4 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
                       BEPUL SOVG'A!
                     </h4>
-                    <p className="text-xs sm:text-sm">
-                      Hoziroq ro'yxatdan o'ting va "Ko'chada gaplashamiz" audio
-                      kitobini bepul qo'lga kiriting
+                    <p
+                      className="text-xs sm:text-sm text-white"
+                      style={{ textShadow: "2px 2px 5px rgba(0,0,0,0.5)" }}
+                    >
+                      Hoziroq ro'yxatdan o'ting va{" "}
+                      <span className="text-yellow-400 font-semibold">
+                        "Ko'chada gaplashamiz"
+                      </span>{" "}
+                      audio kitobini bepul qo'lga kiriting
                     </p>
                   </div>
                 </div>
