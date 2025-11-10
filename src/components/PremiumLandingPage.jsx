@@ -111,10 +111,10 @@ const PremiumLandingPage = () => {
       title: "Sertifikat",
       desc: "Rasmiy sertifikat beriladi",
     },
-    { 
-      icon: <FaClock className="w-6 h-6 sm:w-8 sm:h-8" />, 
-      title: "60 Kun", 
-      desc: "Intensiv dastur" 
+    {
+      icon: <FaClock className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "60 Kun",
+      desc: "Intensiv dastur",
     },
     {
       icon: <FaBullseye className="w-6 h-6 sm:w-8 sm:h-8" />,
@@ -177,18 +177,26 @@ const PremiumLandingPage = () => {
         {/* Main Hero */}
         <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-12">
           <div className="text-center mb-8 sm:mb-12">
-            <div className="inline-block bg-yellow-400 text-gray-900 px-4 py-1.5 sm:px-6 sm:py-2 rounded-full font-semibold text-xs sm:text-sm mb-4 sm:mb-6 animate-bounce shadow-lg">
-              ⚡ Chegirma muddati tugaydi!
+            <div
+              className="inline-block bg-yellow-400 text-gray-900 px-5 py-2 sm:px-7 sm:py-2.5 rounded-full font-extrabold text-sm sm:text-base mb-4 sm:mb-6 animate-bounce shadow-lg tracking-wide"
+              style={{
+                fontFamily: "'Poppins', sans-serif",
+                letterSpacing: "0.5px",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+              }}
+            >
+              🎁 40% chegirmani qo’lga kiriting!
             </div>
 
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 mb-4 sm:mb-6 leading-tight px-2">
-              60 Kunda Noldan<br />
+              60 Kunda Noldan
+              <br />
               <span className="text-indigo-600">Razgovorgacha</span> O'rganing!
             </h1>
 
             <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
-              Professional ustozlar bilan intensiv online kurs. Amaliy darslar va
-              jonli suhbatlar orqali tezkor natijaga erishing!
+              Professional ustozlar bilan intensiv online kurs. Amaliy darslar
+              va jonli suhbatlar orqali tezkor natijaga erishing!
             </p>
 
             {/* Features Grid */}
@@ -204,7 +212,9 @@ const PremiumLandingPage = () => {
                   <div className="font-bold text-sm sm:text-lg text-gray-800">
                     {feature.title}
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-600">{feature.desc}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">
+                    {feature.desc}
+                  </div>
                 </div>
               ))}
             </div>
@@ -218,7 +228,9 @@ const PremiumLandingPage = () => {
                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
                   🎯 Ro'yxatdan O'ting
                 </h2>
-                <p className="text-sm sm:text-base text-gray-600">Va bepul sovg'a oling!</p>
+                <p className="text-sm sm:text-base text-gray-600">
+                  Va bepul sovg'a oling!
+                </p>
               </div>
 
               {/* Countdown Timer */}
@@ -340,7 +352,7 @@ const PremiumLandingPage = () => {
               </div>
 
               {/* Gift Card */}
-              <div className="bg-gradient-to-r from-indigo-500 to-blue-600 rounded-2xl sm:rounded-3xl p-0 sm:px-2 shadow-2xl text-white transform hover:scale-105 transition-all duration-300">
+              <div className="bg-gradient-to-r from-indigo-300 to-blue-400 rounded-2xl sm:rounded-3xl p-0 sm:px-2 shadow-2xl text-white transform hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-3 sm:gap-0">
                   <div className="flex-shrink-0">
                     <img
@@ -350,9 +362,12 @@ const PremiumLandingPage = () => {
                     />
                   </div>
                   <div>
-                    <h4 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">BEPUL SOVG'A!</h4>
+                    <h4 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+                      BEPUL SOVG'A!
+                    </h4>
                     <p className="text-xs sm:text-sm">
-                      Hoziroq ro'yxatdan o'ting va "Ko'chada gaplashamiz" audio kitobini bepul qo'lga kiriting
+                      Hoziroq ro'yxatdan o'ting va "Ko'chada gaplashamiz" audio
+                      kitobini bepul qo'lga kiriting
                     </p>
                   </div>
                 </div>
@@ -378,7 +393,10 @@ const PremiumLandingPage = () => {
                   <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl border-2 border-indigo-100">
                     <div className="flex gap-1 mb-3 sm:mb-4 justify-center">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <FaStar key={i} className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" />
+                        <FaStar
+                          key={i}
+                          className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400"
+                        />
                       ))}
                     </div>
                     <p className="text-base sm:text-xl text-gray-700 text-center mb-3 sm:mb-4 italic">
@@ -419,8 +437,12 @@ const PremiumLandingPage = () => {
                   key={idx}
                   className="transform hover:scale-110 transition-transform"
                 >
-                  <div className="text-3xl sm:text-5xl font-black mb-1 sm:mb-2">{stat.num}</div>
-                  <div className="text-sm sm:text-lg opacity-90">{stat.label}</div>
+                  <div className="text-3xl sm:text-5xl font-black mb-1 sm:mb-2">
+                    {stat.num}
+                  </div>
+                  <div className="text-sm sm:text-lg opacity-90">
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </div>
