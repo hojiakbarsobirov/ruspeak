@@ -194,34 +194,10 @@ const PremiumLandingPage = () => {
               <span className="text-indigo-600">Razgovorgacha</span> O'rganing!
             </h1>
 
-            <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
-              Professional ustozlar bilan intensiv online kurs. Amaliy darslar
-              va jonli suhbatlar orqali tezkor natijaga erishing!
-            </p>
-
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mb-8 sm:mb-12 px-2">
-              {features.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-400"
-                >
-                  <div className="text-indigo-600 mb-2 sm:mb-3 flex justify-center">
-                    {feature.icon}
-                  </div>
-                  <div className="font-bold text-sm sm:text-lg text-gray-800">
-                    {feature.title}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-600">
-                    {feature.desc}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+            
 
           {/* Registration Form & Countdown */}
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-4 sm:gap-8 items-start">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-4 mt-10 sm:gap-8 items-start">
             {/* Form */}
             <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-8 border-4 border-indigo-100 transform hover:scale-105 transition-all duration-300">
               <div className="text-center mb-4 sm:mb-6">
@@ -378,6 +354,32 @@ const PremiumLandingPage = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 mt-10 sm:mb- mt-10 max-w-3xl mx-auto px-4">
+              Professional ustozlar bilan intensiv online kurs. Amaliy darslar
+              va jonli suhbatlar orqali tezkor natijaga erishing!
+            </p>
+
+            {/* Features Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mb-8 sm:mb-12 px-2">
+              {features.map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-400"
+                >
+                  <div className="text-indigo-600 mb-2 sm:mb-3 flex justify-center">
+                    {feature.icon}
+                  </div>
+                  <div className="font-bold text-sm sm:text-lg text-gray-800">
+                    {feature.title}
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-600">
+                    {feature.desc}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
