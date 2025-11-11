@@ -71,7 +71,13 @@ const PremiumLandingPage = () => {
     e.preventDefault();
     const phoneNumbers = phone.replace(/\D/g, "");
 
-    if (!name.trim() || phoneNumbers.length !== 12 || !extraPhone.trim()) {
+    // Ism 4 tadan kam bo'lsa alert chiqarish
+    if (name.trim().length < 4) {
+      alert("Ism kamida 4 ta harfdan iborat bo'lishi kerak");
+      return;
+    }
+
+    if (!phoneNumbers || phoneNumbers.length !== 12 || !extraPhone.trim()) {
       alert(
         "Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting"
       );
