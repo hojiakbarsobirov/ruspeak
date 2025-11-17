@@ -398,7 +398,7 @@ const PremiumLandingPage = () => {
               </div>
             </div>
 
-            <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 mt-10 sm:mb- mt-10 max-w-3xl mx-auto px-4">
+            <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 mt-10 sm:mb-mt-10 max-w-3xl mx-auto px-4">
               Professional ustozlar bilan intensiv online kurs. Amaliy darslar
               va jonli suhbatlar orqali tezkor natijaga erishing!
             </p>
