@@ -27,6 +27,53 @@ const PremiumLandingPage = () => {
   const [success, setSuccess] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
+  // Meta Pixel ni yuklash
+  useEffect(() => {
+    // Facebook Pixel scriptini yuklash
+    !(function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod
+          ? n.callMethod.apply(n, arguments)
+          : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = "2.0";
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    })(
+      window,
+      document,
+      "script",
+      "https://connect.facebook.net/en_US/fbevents.js"
+    );
+
+    window.fbq("init", "1543301330183143");
+    window.fbq("track", "PageView");
+
+    // Noscript uchun img elementi qo'shish
+    const noscriptImg = document.createElement("img");
+    noscriptImg.height = 1;
+    noscriptImg.width = 1;
+    noscriptImg.style.display = "none";
+    noscriptImg.src =
+      "https://www.facebook.com/tr?id=1543301330183143&ev=PageView&noscript=1";
+    document.body.appendChild(noscriptImg);
+
+    return () => {
+      // Cleanup
+      if (noscriptImg && noscriptImg.parentNode) {
+        noscriptImg.parentNode.removeChild(noscriptImg);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(
       () => setTimeLeft((prev) => Math.max(prev - 1, 0)),
@@ -93,6 +140,16 @@ const PremiumLandingPage = () => {
         extraPhone: extraPhone.trim(),
         createdAt: serverTimestamp(),
       });
+
+      // Meta Pixel Lead event
+      if (window.fbq) {
+        window.fbq("track", "Lead", {
+          content_name: "Rus tili kursi ro'yxatdan o'tish",
+          content_category: "Education",
+          value: 0,
+          currency: "UZS",
+        });
+      }
 
       setSuccess(true);
       setName("");
@@ -204,7 +261,7 @@ const PremiumLandingPage = () => {
               >
                 🎁
               </span>
-              40% chegirmani qo’lga kiriting!
+              40% chegirmani qo'lga kiriting!
             </div>
 
             <style>
