@@ -232,7 +232,7 @@ const PremiumLandingPage = () => {
       {/* Hero Section */}
       <div className="relative z-10">
         {/* Logo */}
-        <div className="pt-6 pb-3 sm:pt-8 sm:pb-4 text-center">
+        <div className="pt-6 pb-0 sm:pt-8 sm:pb-4 text-center">
           <div className="inline-block px-4 py-2 sm:px-8 sm:py-3 transform hover:scale-105 transition-transform duration-300">
             <img className="w-[180px] sm:w-[250px]" src="/logotip.png" alt="" />
           </div>
@@ -242,25 +242,25 @@ const PremiumLandingPage = () => {
         <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-12">
           <div className="text-center mb-8 sm:mb-12">
             <div
-              className="inline-flex items-center bg-yellow-400 text-gray-900 px-6 py-3 sm:px-8 sm:py-3.5 rounded-full font-extrabold text-base sm:text-lg mb-6 animate-pulse shadow-2xl tracking-wide transition-transform duration-300 ease-in-out transform hover:scale-105"
+              className="inline-flex items-center text-red px-6 py-3 sm:px-8 sm:py-3.5 rounded-full font-extrabold text-base sm:text-xl mb-6 tracking-wide transition-transform ease-in-out transform hover:scale-105"
               style={{
                 fontFamily: "'Poppins', sans-serif",
                 letterSpacing: "1px",
-                boxShadow:
-                  "0 0 25px rgba(255, 215, 0, 0.6), 0 4px 15px rgba(0,0,0,0.2)",
-                textShadow: "0 0 10px rgba(255,255,255,0.9)",
-                animation: "fadeInBounce 2s ease-in-out",
+                // boxShadow:
+                  // "0 0 25px rgba(255, 215, 0, 0.6), 0 4px 15px rgba(0,0,0,0.2)",
+                // textShadow: "0 0 10px rgba(255,255,255,0.9)",
+                // animation: "fadeInBounce 2s ease-in-out",
               }}
             >
               <span
                 style={{
                   fontSize: "2rem",
                   marginRight: "10px",
-                  animation: "giftShake 1.5s infinite ease-in-out",
+                  // animation: "giftShake 1.5s infinite ease-in-out",
                 }}
               >
-                🎁
               </span>
+                🎁
               40% chegirmani qo'lga kiriting!
             </div>
 
