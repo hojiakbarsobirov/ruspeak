@@ -425,7 +425,7 @@ const PremiumLandingPage = () => {
             Tel raqam: <span>+998 93 277 90 90</span>
           </p>
           <p className="text-white font-medium mb-2">
-            Tg/WhatsApp: <span>@nravshan</span>
+            Tg/WhatsApp: <span>@azizbek</span>
           </p>
         </div>
 
