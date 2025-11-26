@@ -4,19 +4,24 @@ import {
   FaPhone,
   FaWhatsapp,
   FaTelegramPlane,
-  FaClock,
   FaCheckCircle,
   FaStar,
-  FaAward,
-  FaUsers,
-  FaChartLine,
-  FaBolt,
-  FaBullseye,
   FaPaperPlane,
-  FaPhoneAlt,
 } from "react-icons/fa";
-import { db } from "../firebase/config";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIza...",
+  authDomain: "ruspeak-5c210.firebaseapp.com",
+  projectId: "ruspeak-5c210",
+  storageBucket: "ruspeak-5c210.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef12345"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const PremiumLandingPage = () => {
   const [timeLeft, setTimeLeft] = useState(60);
@@ -26,10 +31,31 @@ const PremiumLandingPage = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  
+  // Bottom form states
+  const [bottomName, setBottomName] = useState("");
+  const [bottomPhone, setBottomPhone] = useState("");
+  const [bottomExtraPhone, setBottomExtraPhone] = useState("");
+  const [bottomLoading, setBottomLoading] = useState(false);
+  const [bottomSuccess, setBottomSuccess] = useState(false);
 
-  // Meta Pixel ni yuklash
   useEffect(() => {
-    // Facebook Pixel scriptini yuklash
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const testimonialTimer = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(testimonialTimer);
+  }, []);
+  
+  // Meta Pixel
+  useEffect(() => {
+    // Load Facebook Pixel
     !(function (f, b, e, v, n, t, s) {
       if (f.fbq) return;
       n = f.fbq = function () {
@@ -53,40 +79,8 @@ const PremiumLandingPage = () => {
       "script",
       "https://connect.facebook.net/en_US/fbevents.js"
     );
-
     window.fbq("init", "1543301330183143");
     window.fbq("track", "PageView");
-
-    // Noscript uchun img elementi qo'shish
-    const noscriptImg = document.createElement("img");
-    noscriptImg.height = 1;
-    noscriptImg.width = 1;
-    noscriptImg.style.display = "none";
-    noscriptImg.src =
-      "https://www.facebook.com/tr?id=1543301330183143&ev=PageView&noscript=1";
-    document.body.appendChild(noscriptImg);
-
-    return () => {
-      // Cleanup
-      if (noscriptImg && noscriptImg.parentNode) {
-        noscriptImg.parentNode.removeChild(noscriptImg);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(
-      () => setTimeLeft((prev) => Math.max(prev - 1, 0)),
-      1000
-    );
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const testimonialTimer = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % 3);
-    }, 5000);
-    return () => clearInterval(testimonialTimer);
   }, []);
 
   const formatPhoneNumber = (value) => {
@@ -113,42 +107,51 @@ const PremiumLandingPage = () => {
     const formatted = formatPhoneNumber(value);
     setPhone(formatted);
   };
+  
+  const handleBottomPhoneChange = (e) => {
+    const value = e.target.value;
+    if (value === "" || value === "+") {
+      setBottomPhone("");
+      return;
+    }
+    const formatted = formatPhoneNumber(value);
+    setBottomPhone(formatted);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const phoneNumbers = phone.replace(/\D/g, "");
 
-    // Ism 4 tadan kam bo'lsa alert chiqarish
     if (name.trim().length < 4) {
       alert("Ism kamida 4 ta harfdan iborat bo'lishi kerak");
       return;
     }
 
     if (!phoneNumbers || phoneNumbers.length !== 12 || !extraPhone.trim()) {
-      alert(
-        "Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting"
-      );
+      alert("Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting");
       return;
     }
 
     setLoading(true);
 
     try {
+      const now = new Date();
+      const date = now.toLocaleDateString('uz-UZ');
+      const time = now.toLocaleTimeString('uz-UZ');
+      
       await addDoc(collection(db, "registrations"), {
         name: name.trim(),
         phone: phone,
         extraPhone: extraPhone.trim(),
-        createdAt: serverTimestamp(),
+        date: date,
+        time: time,
+        timestamp: now.toISOString(),
+        formLocation: "top"
       });
-
-      // Meta Pixel Lead event
+      
+      // Track Facebook Pixel event
       if (window.fbq) {
-        window.fbq("track", "Lead", {
-          content_name: "Rus tili kursi ro'yxatdan o'tish",
-          content_category: "Education",
-          value: 0,
-          currency: "UZS",
-        });
+        window.fbq('track', 'Lead');
       }
 
       setSuccess(true);
@@ -163,28 +166,63 @@ const PremiumLandingPage = () => {
       setLoading(false);
     }
   };
+  
+  const handleBottomSubmit = async (e) => {
+    e.preventDefault();
+    const phoneNumbers = bottomPhone.replace(/\D/g, "");
 
-  const features = [
-    {
-      icon: <FaUsers className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "200+ O'quvchi",
-      desc: "Muvaffaqiyatli bitiruvchilar",
-    },
-    {
-      icon: <FaAward className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "Sertifikat",
-      desc: "Rasmiy sertifikat beriladi",
-    },
-    {
-      icon: <FaClock className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "60 Kun",
-      desc: "Intensiv dastur",
-    },
-    {
-      icon: <FaBullseye className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "100% Natija",
-      desc: "Kafolatlangan o'rganish",
-    },
+    if (bottomName.trim().length < 4) {
+      alert("Ism kamida 4 ta harfdan iborat bo'lishi kerak");
+      return;
+    }
+
+    if (!phoneNumbers || phoneNumbers.length !== 12 || !bottomExtraPhone.trim()) {
+      alert("Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting");
+      return;
+    }
+
+    setBottomLoading(true);
+
+    try {
+      const now = new Date();
+      const date = now.toLocaleDateString('uz-UZ');
+      const time = now.toLocaleTimeString('uz-UZ');
+      
+      await addDoc(collection(db, "registrations"), {
+        name: bottomName.trim(),
+        phone: bottomPhone,
+        extraPhone: bottomExtraPhone.trim(),
+        date: date,
+        time: time,
+        timestamp: now.toISOString(),
+        formLocation: "bottom"
+      });
+      
+      // Track Facebook Pixel event
+      if (window.fbq) {
+        window.fbq('track', 'Lead');
+      }
+
+      setBottomSuccess(true);
+      setBottomName("");
+      setBottomPhone("");
+      setBottomExtraPhone("");
+      setTimeout(() => setBottomSuccess(false), 3000);
+    } catch (error) {
+      console.error("Xato yuz berdi:", error);
+      alert("Ma'lumot yuborilmadi, qayta urinib ko'ring.");
+    } finally {
+      setBottomLoading(false);
+    }
+  };
+
+  const benefits = [
+    "Jonli online darslar",
+    "Kichik guruhlar (8-10 kishi)",
+    "Kunlik amaliy mashg'ulotlar",
+    "24/7 ustoz yordami",
+    "Bepul qo'shimcha materiallar",
+    "Darslarni qayta ko'rish imkoniyati",
   ];
 
   const testimonials = [
@@ -205,353 +243,329 @@ const PremiumLandingPage = () => {
     },
   ];
 
-  const benefits = [
-    "Jonli online darslar",
-    "Kichik guruhlar (8-10 kishi)",
-    "Kunlik amaliy mashg'ulotlar",
-    "24/7 ustoz yordami",
-    "Bepul qo'shimcha materiallar",
-    "Darslarni qayta ko'rish imkoniyati",
+  const stats = [
+    { num: "200+", label: "O'quvchilar" },
+    { num: "60", label: "Kun davom etadi" },
+    { num: "95%", label: "Mamnun o'quvchilar" },
+    { num: "24/7", label: "Yordam" },
   ];
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-indigo-100">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-        <div
-          className="absolute top-40 right-10 w-48 h-48 sm:w-72 sm:h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"
-          style={{ animationDelay: "2s" }}
-        ></div>
-        <div
-          className="absolute bottom-20 left-1/3 w-48 h-48 sm:w-72 sm:h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"
-          style={{ animationDelay: "4s" }}
-        ></div>
-      </div>
+  const hours = Math.floor(timeLeft / 3600);
+  const minutes = Math.floor((timeLeft % 3600) / 60);
+  const seconds = timeLeft % 60;
 
-      {/* Hero Section */}
-      <div className="relative z-10">
-        {/* Logo */}
-        <div className="pt-6 pb-0 sm:pt-8 sm:pb-4 text-center">
-          <div className="inline-block px-4 py-2 sm:px-8 sm:py-3 transform hover:scale-105 transition-transform duration-300">
-            <img className="w-[180px] sm:w-[250px]" src="/logotip.png" alt="" />
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
+      <div className="w-full max-w-md bg-white rounded-3xl  overflow-hidden">
+        {/* Hero Section */}
+        <div className="relative overflow-hidden">
+          <div
+            className="absolute inset-0 bg-no-repeat bg-center bg-cover"
+            style={{
+              backgroundImage: "url('https://thumbs.dreamstime.com/b/moscow-russia-3875917.jpg')",
+            }}
+          ></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 to-blue-600/70"></div>
+          
+          <div className="relative z-10 px-6 pt-12 pb-8">
+            <div className="text-center text-white mb-8">
+              <h1 className="text-3xl font-bold mb-2">
+                0 Dan Razgovorgacha
+              </h1>
+              <h2 className="text-5xl font-black">
+                Atigi 60 Kunda!
+              </h2>
+            </div>
+
+            {/* Registration Card */}
+            <div className="backdrop-blur-md rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
+              {/* Countdown Timer */}
+              <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl p-6 mb-6 shadow-lg">
+                <p className="text-white text-center text-sm font-semibold mb-3">
+                  Hoziroq Ro'yxatdan O'ting
+                </p>
+                <p className="text-white/90 text-center text-xs mb-4">
+                  Va Bebul Sovg'ani Qo'lga Kiriting!
+                </p>
+                <div className="flex justify-center gap-3">
+                  {[
+                    { val: hours, label: "Soat" },
+                    { val: minutes, label: "Minut" },
+                    { val: seconds, label: "Sekund" },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="bg-white text-blue-600 rounded-xl px-4 py-3 font-mono font-bold text-2xl shadow-lg min-w-[60px] text-center">
+                        {String(item.val).padStart(2, "0")}
+                      </div>
+                      <span className="text-white text-xs mt-2 font-semibold">
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Form */}
+              <div className="space-y-4">
+                <div className="relative">
+                  <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Ismingiz"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
+                  />
+                </div>
+
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
+                    🇺🇿
+                  </span>
+                  <input
+                    type="tel"
+                    placeholder="+998 90 555 55 55"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
+                  />
+                </div>
+
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
+                    <FaTelegramPlane className="text-blue-400 w-4 h-4" />
+                    <FaWhatsapp className="text-green-500 w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Telegram/WhatsApp"
+                    value={extraPhone}
+                    onChange={(e) => setExtraPhone(e.target.value)}
+                    className="w-full pl-14 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg"
+                  />
+                </div>
+
+                <button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className={`w-full py-4 rounded-xl font-bold text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
+                    success
+                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                      : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+                  } disabled:opacity-50 flex items-center justify-center gap-2`}
+                >
+                  {loading ? (
+                    <>
+                      <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Yuborilmoqda...
+                    </>
+                  ) : success ? (
+                    <>
+                      <FaCheckCircle className="w-6 h-6" />
+                      Muvaffaqiyatli!
+                    </>
+                  ) : (
+                    <>
+                      Ro'yxatdan O'ting
+                      <span className="text-2xl">→</span>
+                    </>
+                  )}
+                </button>
+
+                {success && (
+                  <div className="bg-blue-50 border-2 border-blue-500 rounded-xl p-4 text-center flex items-center justify-center gap-2">
+                    <FaPhone className="text-blue-600 w-5 h-5" />
+                    <p className="text-blue-700 font-semibold text-sm">
+                      Siz bilan tez orada bog'lanamiz
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Main Hero */}
-        <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-12">
-          <div className="text-center mb-8 sm:mb-12">
-            <div
-              className="inline-flex items-center text-red px-6 py-3 sm:px-8 sm:py-3.5 rounded-full font-extrabold text-base sm:text-xl mb-6 tracking-wide transition-transform ease-in-out transform hover:scale-105"
-              style={{
-                fontFamily: "'Poppins', sans-serif",
-                letterSpacing: "1px",
-                // boxShadow:
-                  // "0 0 25px rgba(255, 215, 0, 0.6), 0 4px 15px rgba(0,0,0,0.2)",
-                // textShadow: "0 0 10px rgba(255,255,255,0.9)",
-                // animation: "fadeInBounce 2s ease-in-out",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "2rem",
-                  marginRight: "10px",
-                  // animation: "giftShake 1.5s infinite ease-in-out",
-                }}
-              >
-              </span>
-                🎁
-              40% chegirmani qo'lga kiriting!
+        {/* Benefits Section */}
+        <div className="px-6 py-8 bg-gradient-to-br from-blue-500 to-blue-600">
+          <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+            ⚡ Kurs Afzalliklari:
+          </h3>
+          <ul className="space-y-3">
+            {benefits.map((benefit, idx) => (
+              <li key={idx} className="flex items-center gap-3 text-base text-white">
+                <div className="bg-white text-blue-600 rounded-full p-1 flex-shrink-0">
+                  <FaCheckCircle className="w-4 h-4" />
+                </div>
+                {benefit}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Gift Section */}
+        <div className="px-6 py-6 bg-gradient-to-r from-blue-400 to-blue-500 relative">
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0">
+              <div className="w-24 h-24  rounded-2xl flex items-center justify-center text-5xl">
+                <img className="absolute w-[170px] left-[-20px]" src="book3.png" alt="" />
+              </div>
             </div>
+            <div className="text-white flex-1">
+              <h4 className="text-lg font-bold mb-1">
+                BEPUL SOVG'A!
+              </h4>
+              <p className="text-sm">
+                Hoziroq ro'yxatdan o'ting va{" "}
+                <span className="font-semibold">
+                  "Ko'chada gaplashamiz"
+                </span>{" "}
+                audio kitobini bepul qo'lga kiriting
+              </p>
+            </div>
+          </div>
+        </div>
 
-            <style>
-              {`
-@keyframes fadeInBounce {
-  0% { opacity: 0; transform: scale(0.5) translateY(-20px); }
-  60% { opacity: 1; transform: scale(1.05) translateY(5px); }
-  100% { transform: scale(1) translateY(0); }
-}
+        {/* Stats Section */}
+        <div className="px-6 py-8 bg-gray-50">
+          <div className="grid grid-cols-2 gap-4">
+            {stats.map((stat, idx) => (
+              <div
+                key={idx}
+                className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-center text-white shadow-xl"
+              >
+                <div className="text-3xl font-black mb-2">{stat.num}</div>
+                <div className="text-sm opacity-90">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-@keyframes giftShake {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  50% { transform: rotate(-10deg); }
-  75% { transform: rotate(6deg); }
-}
-`}
-            </style>
-
-            <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 mb-4 sm:mb-6 leading-tight px-2">
-              60 Kunda Noldan
-              <br />
-              <span className="text-indigo-600">Razgovorgacha</span> O'rganing!
-            </h1>
-
-            {/* Registration Form & Countdown */}
-            <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-4 mt-10 sm:gap-8 items-start">
-              {/* Form */}
-              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-8 border-4 border-indigo-100 transform hover:scale-105 transition-all duration-300">
-                <div className="text-center mb-4 sm:mb-6">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
-                    🎯 Ro'yxatdan O'ting
-                  </h2>
-                  <p className="text-sm sm:text-base text-gray-600">
-                    Va bepul sovg'a oling!
+        {/* Testimonials */}
+        <div className="px-6 py-8 bg-white">
+          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+            💬 O'quvchilar Fikrlari
+          </h2>
+          <div className="relative min-h-[200px]">
+            {testimonials.map((testimonial, idx) => (
+              <div
+                key={idx}
+                className={`transition-all duration-500 ${
+                  idx === activeTestimonial
+                    ? "opacity-100 transform scale-100"
+                    : "opacity-0 absolute inset-0 transform scale-95 pointer-events-none"
+                }`}
+              >
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-lg">
+                  <div className="flex gap-1 mb-3 justify-center">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <FaStar key={i} className="w-5 h-5 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-lg text-gray-700 text-center mb-3 italic">
+                    "{testimonial.text}"
+                  </p>
+                  <p className="text-center font-bold text-blue-600">
+                    — {testimonial.name}
                   </p>
                 </div>
-
-                {/* Countdown Timer */}
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-lg">
-                  <div className="flex justify-center gap-2 sm:gap-4">
-                    {[
-                      { val: Math.floor(timeLeft / 3600), label: "Soat" },
-                      {
-                        val: Math.floor((timeLeft % 3600) / 60),
-                        label: "Minut",
-                      },
-                      { val: timeLeft % 60, label: "Secund" },
-                    ].map((item, idx) => (
-                      <div key={idx} className="flex flex-col items-center">
-                        <div className="bg-white text-red-600 rounded-lg sm:rounded-xl px-3 py-2 sm:px-4 sm:py-3 font-mono font-bold text-xl sm:text-3xl shadow-lg min-w-[50px] sm:min-w-[70px]">
-                          {String(item.val).padStart(2, "0")}
-                        </div>
-                        <span className="text-white text-[10px] sm:text-xs mt-1 sm:mt-2 font-semibold">
-                          {item.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="relative group">
-                    <FaUser className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-indigo-500 w-4 h-4 sm:w-5 sm:h-5 group-focus-within:scale-110 transition-transform" />
-                    <input
-                      type="text"
-                      placeholder="Ismingiz"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all text-base sm:text-lg"
-                    />
-                  </div>
-
-                  <div className="relative group">
-                    <span className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-xl sm:text-2xl">
-                      🇺🇿
-                    </span>
-                    <input
-                      type="tel"
-                      placeholder="+998 99 999 99 99"
-                      value={phone}
-                      onChange={handlePhoneChange}
-                      className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all text-base sm:text-lg"
-                    />
-                  </div>
-
-                  <div className="relative group">
-                    <div className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 flex gap-1">
-                      <FaWhatsapp className="text-green-500 w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      <FaTelegramPlane className="text-blue-400 w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="WhatsApp / Telegram"
-                      value={extraPhone}
-                      onChange={(e) => setExtraPhone(e.target.value)}
-                      className="w-full pl-12 sm:pl-14 pr-3 sm:pr-4 py-3 sm:py-4 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-base sm:text-lg"
-                    />
-                  </div>
-
-                  <button
-                    onClick={handleSubmit}
-                    disabled={loading}
-                    className={`w-full py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
-                      success
-                        ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                        : "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700"
-                    } disabled:opacity-50 flex items-center justify-center gap-2`}
-                  >
-                    {loading ? (
-                      <>
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Yuborilmoqda...
-                      </>
-                    ) : success ? (
-                      <>
-                        <FaCheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-                        Muvaffaqiyatli!
-                      </>
-                    ) : (
-                      <>
-                        <FaPaperPlane className="w-5 h-5 sm:w-6 sm:h-6" />
-                        Ro'yxatdan O'tish
-                      </>
-                    )}
-                  </button>
-
-                  {success && (
-                    <div className="bg-lue-50 border-2 border-blue-500 rounded-xl p-3 sm:p-4 text-center flex items-center justify-center gap-2 animate-pulse">
-                      <FaPhone className="text-blue-700 w-5 h-5 sm:w-6 sm:h-6" />
-                      <p className="text-blue-700 font-semibold text-sm sm:text-base">
-                        Siz bilan tez orada bog'lanamiz
-                      </p>
-                    </div>
-                  )}
-                </div>
               </div>
-
-              {/* Benefits Card */}
-              <div className="space-y-4 sm:space-y-6">
-                <div className="bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl text-white transform hover:scale-105 transition-all duration-300">
-                  <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
-                    <FaBolt className="w-6 h-6 sm:w-8 sm:h-8" />
-                    Kurs Afzalliklari:
-                  </h3>
-                  <ul className="space-y-2 sm:space-y-3">
-                    {benefits.map((benefit, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-center gap-2 sm:gap-3 text-sm sm:text-lg"
-                      >
-                        <div className="bg-white text-indigo-600 rounded-full p-1 sm:p-1.5 flex-shrink-0">
-                          <FaCheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
-                        </div>
-                        {benefit}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Gift Card */}
-                <div className="bg-gradient-to-r from-indigo-300 to-blue-400 rounded-2xl sm:rounded-3xl p-0 sm:px-2 shadow-2xl text-white transform hover:scale-105 transition-all duration-300">
-                  <div className="flex items-center gap-3 sm:gap-0">
-                    <div className="flex-shrink-0">
-                      <img
-                        src="/book3.png"
-                        alt="Bepul kitob"
-                        className="w-36 h-36 sm:w-36 sm:h-36 object-contain"
-                      />
-                    </div>
-                    <div>
-                      <h4
-                        className="text-lg sm:text-xl font-bold mb-1 sm:mb-2"
-                        style={{ textShadow: "2px 2px 5px rgba(0,0,0,0.5)" }}
-                      >
-                        BEPUL SOVG'A!
-                      </h4>
-                      <p
-                        className="text-xs sm:text-sm text-white"
-                        style={{ textShadow: "2px 2px 5px rgba(0,0,0,0.5)" }}
-                      >
-                        Hoziroq ro'yxatdan o'ting va{" "}
-                        <span className="text-yellow-400 font-semibold">
-                          "Ko'chada gaplashamiz"
-                        </span>{" "}
-                        audio kitobini bepul qo'lga kiriting
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 mt-10 sm:mb-mt-10 max-w-3xl mx-auto px-4">
-              Professional ustozlar bilan intensiv online kurs. Amaliy darslar
-              va jonli suhbatlar orqali tezkor natijaga erishing!
-            </p>
-
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mb-8 sm:mb-12 px-2">
-              {features.map((feature, idx) => (
-                <div
+            ))}
+            <div className="flex justify-center gap-2 mt-4">
+              {testimonials.map((_, idx) => (
+                <button
                   key={idx}
-                  className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-400"
-                >
-                  <div className="text-indigo-600 mb-2 sm:mb-3 flex justify-center">
-                    {feature.icon}
-                  </div>
-                  <div className="font-bold text-sm sm:text-lg text-gray-800">
-                    {feature.title}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-600">
-                    {feature.desc}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Testimonials */}
-          <div className="mt-12 sm:mt-20 max-w-4xl mx-auto px-2">
-            <h2 className="text-2xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-800">
-              💬 O'quvchilar Fikrlari
-            </h2>
-            <div className="relative">
-              {testimonials.map((testimonial, idx) => (
-                <div
-                  key={idx}
-                  className={`transition-all duration-500 ${
+                  onClick={() => setActiveTestimonial(idx)}
+                  className={`w-3 h-3 rounded-full transition-all ${
                     idx === activeTestimonial
-                      ? "opacity-100 transform scale-100"
-                      : "opacity-0 absolute inset-0 transform scale-95 pointer-events-none"
+                      ? "bg-blue-600 w-8"
+                      : "bg-gray-300"
                   }`}
-                >
-                  <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl border-2 border-indigo-100">
-                    <div className="flex gap-1 mb-3 sm:mb-4 justify-center">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <FaStar
-                          key={i}
-                          className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400"
-                        />
-                      ))}
-                    </div>
-                    <p className="text-base sm:text-xl text-gray-700 text-center mb-3 sm:mb-4 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-center font-bold text-indigo-600 text-sm sm:text-base">
-                      — {testimonial.name}
-                    </p>
-                  </div>
-                </div>
+                />
               ))}
-              <div className="flex justify-center gap-2 mt-4 sm:mt-6">
-                {testimonials.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveTestimonial(idx)}
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all ${
-                      idx === activeTestimonial
-                        ? "bg-indigo-600 w-6 sm:w-8"
-                        : "bg-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
             </div>
           </div>
+        </div>
 
-          {/* Stats Section */}
-          <div className="mt-12 sm:mt-20 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow-2xl mx-2">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center text-white">
-              {[
-                { num: "200+", label: "O'quvchilar" },
-                { num: "60", label: "Kun davom etadi" },
-                { num: "95%", label: "Mamnun o'quvchilar" },
-                { num: "24/7", label: "Yordam" },
-              ].map((stat, idx) => (
-                <div
-                  key={idx}
-                  className="transform hover:scale-110 transition-transform"
-                >
-                  <div className="text-3xl sm:text-5xl font-black mb-1 sm:mb-2">
-                    {stat.num}
-                  </div>
-                  <div className="text-sm sm:text-lg opacity-90">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+        {/* Bottom CTA */}
+        <div className="px-6 py-8 bg-gradient-to-br from-blue-500 to-blue-600">
+          <h3 className="text-2xl font-bold text-center mb-6 text-white">
+            📝 Hoziroq Ro'yxatdan O'ting
+          </h3>
+          
+          <div className="space-y-4">
+            <div className="relative">
+              <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Ismingiz"
+                value={bottomName}
+                onChange={(e) => setBottomName(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
+              />
             </div>
+
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
+                🇺🇿
+              </span>
+              <input
+                type="tel"
+                placeholder="+998 90 555 55 55"
+                value={bottomPhone}
+                onChange={handleBottomPhoneChange}
+                className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
+              />
+            </div>
+
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
+                <FaTelegramPlane className="text-blue-400 w-4 h-4" />
+                <FaWhatsapp className="text-green-500 w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                placeholder="Telegram/WhatsApp"
+                value={bottomExtraPhone}
+                onChange={(e) => setBottomExtraPhone(e.target.value)}
+                className="w-full pl-14 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg"
+              />
+            </div>
+
+            <button
+              onClick={handleBottomSubmit}
+              disabled={bottomLoading}
+              className={`w-full py-4 rounded-xl font-bold text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
+                bottomSuccess
+                  ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                  : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+              } disabled:opacity-50 flex items-center justify-center gap-2`}
+            >
+              {bottomLoading ? (
+                <>
+                  <div className="w-6 h-6 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  Yuborilmoqda...
+                </>
+              ) : bottomSuccess ? (
+                <>
+                  <FaCheckCircle className="w-6 h-6" />
+                  Muvaffaqiyatli!
+                </>
+              ) : (
+                <>
+                  Ro'yxatdan O'ting
+                  <span className="text-2xl">→</span>
+                </>
+              )}
+            </button>
+
+            {bottomSuccess && (
+              <div className="bg-white rounded-xl p-4 text-center flex items-center justify-center gap-2">
+                <FaPhone className="text-blue-600 w-5 h-5" />
+                <p className="text-blue-600 font-semibold text-sm">
+                  Siz bilan tez orada bog'lanamiz
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
