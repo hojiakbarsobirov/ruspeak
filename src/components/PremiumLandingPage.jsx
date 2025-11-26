@@ -487,7 +487,7 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="px-6 py-8 bg-gradient-to-br from-blue-500 to-blue-600">
+        <div className="px-6 py-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600">
           <h3 className="text-2xl font-bold text-center mb-6 text-white">
             📝 Hoziroq Ro'yxatdan O'ting
           </h3>
