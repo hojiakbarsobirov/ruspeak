@@ -255,10 +255,10 @@ const PremiumLandingPage = () => {
   const seconds = timeLeft % 60;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-3xl  overflow-hidden">
         {/* Hero Section */}
-        <div className="relative overflow-hidden">
+        <div className="relative rounded-lg overflow-hidden">
           <div
             className="absolute inset-0 bg-no-repeat bg-center bg-cover"
             style={{
@@ -386,7 +386,7 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Benefits Section */}
-        <div className="px-6 py-8 bg-gradient-to-br from-blue-500 to-blue-600">
+        <div className="px-6 py-8 bg-gradient-to-br my-5 rounded-lg from-blue-500 to-blue-600">
           <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
             ⚡ Kurs Afzalliklari:
           </h3>
@@ -403,7 +403,7 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Gift Section */}
-        <div className="px-6 py-6 bg-gradient-to-r from-blue-400 to-blue-500 relative">
+        <div className="px-6 py-6 my-10 bg-blue-500 bg-opacity-50 rounded-lg relative">
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0">
               <div className="w-24 h-24  rounded-2xl flex items-center justify-center text-5xl">
