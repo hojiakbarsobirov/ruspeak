@@ -17,7 +17,7 @@ const firebaseConfig = {
   projectId: "ruspeak-5c210",
   storageBucket: "ruspeak-5c210.appspot.com",
   messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef12345"
+  appId: "1:1234567890:web:abcdef12345",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -31,7 +31,7 @@ const PremiumLandingPage = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  
+
   // Bottom form states
   const [bottomName, setBottomName] = useState("");
   const [bottomPhone, setBottomPhone] = useState("");
@@ -52,7 +52,7 @@ const PremiumLandingPage = () => {
     }, 5000);
     return () => clearInterval(testimonialTimer);
   }, []);
-  
+
   // Meta Pixel
   useEffect(() => {
     // Load Facebook Pixel
@@ -107,7 +107,7 @@ const PremiumLandingPage = () => {
     const formatted = formatPhoneNumber(value);
     setPhone(formatted);
   };
-  
+
   const handleBottomPhoneChange = (e) => {
     const value = e.target.value;
     if (value === "" || value === "+") {
@@ -128,7 +128,9 @@ const PremiumLandingPage = () => {
     }
 
     if (!phoneNumbers || phoneNumbers.length !== 12 || !extraPhone.trim()) {
-      alert("Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting");
+      alert(
+        "Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting"
+      );
       return;
     }
 
@@ -136,9 +138,9 @@ const PremiumLandingPage = () => {
 
     try {
       const now = new Date();
-      const date = now.toLocaleDateString('uz-UZ');
-      const time = now.toLocaleTimeString('uz-UZ');
-      
+      const date = now.toLocaleDateString("uz-UZ");
+      const time = now.toLocaleTimeString("uz-UZ");
+
       await addDoc(collection(db, "registrations"), {
         name: name.trim(),
         phone: phone,
@@ -146,12 +148,12 @@ const PremiumLandingPage = () => {
         date: date,
         time: time,
         timestamp: now.toISOString(),
-        formLocation: "top"
+        formLocation: "top",
       });
-      
+
       // Track Facebook Pixel event
       if (window.fbq) {
-        window.fbq('track', 'Lead');
+        window.fbq("track", "Lead");
       }
 
       setSuccess(true);
@@ -166,7 +168,7 @@ const PremiumLandingPage = () => {
       setLoading(false);
     }
   };
-  
+
   const handleBottomSubmit = async (e) => {
     e.preventDefault();
     const phoneNumbers = bottomPhone.replace(/\D/g, "");
@@ -176,8 +178,14 @@ const PremiumLandingPage = () => {
       return;
     }
 
-    if (!phoneNumbers || phoneNumbers.length !== 12 || !bottomExtraPhone.trim()) {
-      alert("Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting");
+    if (
+      !phoneNumbers ||
+      phoneNumbers.length !== 12 ||
+      !bottomExtraPhone.trim()
+    ) {
+      alert(
+        "Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting"
+      );
       return;
     }
 
@@ -185,9 +193,9 @@ const PremiumLandingPage = () => {
 
     try {
       const now = new Date();
-      const date = now.toLocaleDateString('uz-UZ');
-      const time = now.toLocaleTimeString('uz-UZ');
-      
+      const date = now.toLocaleDateString("uz-UZ");
+      const time = now.toLocaleTimeString("uz-UZ");
+
       await addDoc(collection(db, "registrations"), {
         name: bottomName.trim(),
         phone: bottomPhone,
@@ -195,12 +203,12 @@ const PremiumLandingPage = () => {
         date: date,
         time: time,
         timestamp: now.toISOString(),
-        formLocation: "bottom"
+        formLocation: "bottom",
       });
-      
+
       // Track Facebook Pixel event
       if (window.fbq) {
-        window.fbq('track', 'Lead');
+        window.fbq("track", "Lead");
       }
 
       setBottomSuccess(true);
@@ -262,31 +270,46 @@ const PremiumLandingPage = () => {
           <div
             className="absolute inset-0 bg-no-repeat bg-center bg-cover"
             style={{
-              backgroundImage: "url('https://thumbs.dreamstime.com/b/moscow-russia-3875917.jpg')",
+              backgroundImage: "url('/background-img.jpg')",
             }}
           ></div>
           <div className="absolute "></div>
-          
+
           <div className="relative z-10 px-6 pt-12 pb-8">
-            <div className="text-center text-white mb-8">
-              <h1 className="text-3xl font-bold mb-2">
+            <div className="text-center text-blue-600 mb-8">
+              <h1
+                className="text-3xl font-bold mb-2"
+                style={{ textShadow: "0px 3px 5px rgba(255,255,255,0.6)" }}
+              >
                 0 Dan Razgovorgacha
               </h1>
-              <h2 className="text-5xl font-black">
+
+              <h2
+                className="text-5xl font-black"
+                style={{ textShadow: "0px 4px 6px rgba(255,255,255,0.7)" }}
+              >
                 Atigi 60 Kunda!
               </h2>
             </div>
 
             {/* Registration Card */}
-            <div className="backdrop-blur-none rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
+            <div className="backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
               {/* Countdown Timer */}
               <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl p-6 mb-6 shadow-lg">
-                <p className="text-white text-center text-sm font-semibold mb-3">
+                <p
+                  className="text-white text-center text-sm font-semibold mb-3"
+                  style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.6)" }}
+                >
                   Hoziroq Ro'yxatdan O'ting
                 </p>
-                <p className="text-white/90 text-center text-xs mb-4">
+
+                <p
+                  className="text-white/90 text-center text-xs mb-4"
+                  style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.5)" }}
+                >
                   Va Bebul Sovg'ani Qo'lga Kiriting!
                 </p>
+
                 <div className="flex justify-center gap-3">
                   {[
                     { val: hours, label: "Soat" },
@@ -297,7 +320,11 @@ const PremiumLandingPage = () => {
                       <div className="bg-white text-blue-600 rounded-xl px-4 py-3 font-mono font-bold text-2xl shadow-lg min-w-[60px] text-center">
                         {String(item.val).padStart(2, "0")}
                       </div>
-                      <span className="text-white text-xs mt-2 font-semibold">
+
+                      <span
+                        className="text-white text-xs mt-2 font-semibold"
+                        style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.6)" }}
+                      >
                         {item.label}
                       </span>
                     </div>
@@ -386,14 +413,21 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Yordam (help) */}
-        {/* <div className="px-6 py-8 bg-gradient-to-br my-5 rounded-lg bg-blue-500 bg-opacity-40">
+        <div className="px-6 py-8 bg-blue-500 my-5 rounded-lg">
           <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
-             yordam
+            Ro'yxatdan o'tish tartibi:
           </h3>
 
-          <p></p>
-          
-        </div> */}
+          <p className="text-white font-medium mb-2">
+            Ismi: <span>Aziz</span>
+          </p>
+          <p className="text-white font-medium mb-2">
+            Tel raqam: <span>+998 93 277 90 90</span>
+          </p>
+          <p className="text-white font-medium mb-2">
+            Tg/WhatsApp: <span>@nravshan</span>
+          </p>
+        </div>
 
         {/* Benefits Section */}
         <div className="px-6 py-8 bg-gradient-to-br my-5 rounded-lg from-blue-500 to-blue-600">
@@ -402,7 +436,10 @@ const PremiumLandingPage = () => {
           </h3>
           <ul className="space-y-3">
             {benefits.map((benefit, idx) => (
-              <li key={idx} className="flex items-center gap-3 text-base text-white">
+              <li
+                key={idx}
+                className="flex items-center gap-3 text-base text-white"
+              >
                 <div className="bg-white text-blue-600 rounded-full p-1 flex-shrink-0">
                   <FaCheckCircle className="w-4 h-4" />
                 </div>
@@ -413,22 +450,22 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Gift Section */}
-        <div className="px-6 py-6 my-10 bg-blue-500 bg-opacity-60 rounded-lg relative">
+        <div className="px-6 py-6 my-10 bg-blue-500 bg-opacity-40 rounded-lg relative">
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0">
               <div className="w-24 h-24  rounded-2xl flex items-center justify-center text-5xl">
-                <img className="absolute w-[170px] left-[-20px]" src="book3.png" alt="" />
+                <img
+                  className="absolute w-[170px] left-[-20px]"
+                  src="book3.png"
+                  alt=""
+                />
               </div>
             </div>
             <div className="text-white flex-1">
-              <h4 className="text-lg font-bold mb-1">
-                BEPUL SOVG'A!
-              </h4>
+              <h4 className="text-lg font-bold mb-1">BEPUL SOVG'A!</h4>
               <p className="text-sm">
                 Hoziroq ro'yxatdan o'ting va{" "}
-                <span className="font-semibold">
-                  "Ko'chada gaplashamiz"
-                </span>{" "}
+                <span className="font-semibold">"Ko'chada gaplashamiz"</span>{" "}
                 audio kitobini bepul qo'lga kiriting
               </p>
             </div>
@@ -499,9 +536,9 @@ const PremiumLandingPage = () => {
         {/* Bottom CTA */}
         <div className="px-6 py-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600">
           <h3 className="text-2xl font-bold text-center mb-6 text-white">
-            🎁 Chegirmani qo'lga kiritish uchun 
+            🎁 Chegirmani qo'lga kiritish uchun
           </h3>
-          
+
           <div className="space-y-4">
             <div className="relative">
               <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
