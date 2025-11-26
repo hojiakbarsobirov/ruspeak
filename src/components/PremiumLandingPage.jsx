@@ -255,7 +255,7 @@ const PremiumLandingPage = () => {
   const seconds = timeLeft % 60;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-0">
       <div className="w-full max-w-md bg-white rounded-3xl  overflow-hidden">
         {/* Hero Section */}
         <div className="relative rounded-lg overflow-hidden">
@@ -265,7 +265,7 @@ const PremiumLandingPage = () => {
               backgroundImage: "url('https://thumbs.dreamstime.com/b/moscow-russia-3875917.jpg')",
             }}
           ></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 to-blue-600/70"></div>
+          <div className="absolute "></div>
           
           <div className="relative z-10 px-6 pt-12 pb-8">
             <div className="text-center text-white mb-8">
@@ -278,7 +278,7 @@ const PremiumLandingPage = () => {
             </div>
 
             {/* Registration Card */}
-            <div className="backdrop-blur-md rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
+            <div className="backdrop-blur-none rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
               {/* Countdown Timer */}
               <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl p-6 mb-6 shadow-lg">
                 <p className="text-white text-center text-sm font-semibold mb-3">
@@ -385,6 +385,16 @@ const PremiumLandingPage = () => {
           </div>
         </div>
 
+        {/* Yordam (help) */}
+        {/* <div className="px-6 py-8 bg-gradient-to-br my-5 rounded-lg bg-blue-500 bg-opacity-40">
+          <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+             yordam
+          </h3>
+
+          <p></p>
+          
+        </div> */}
+
         {/* Benefits Section */}
         <div className="px-6 py-8 bg-gradient-to-br my-5 rounded-lg from-blue-500 to-blue-600">
           <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
@@ -403,7 +413,7 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Gift Section */}
-        <div className="px-6 py-6 my-10 bg-blue-500 bg-opacity-50 rounded-lg relative">
+        <div className="px-6 py-6 my-10 bg-blue-500 bg-opacity-60 rounded-lg relative">
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0">
               <div className="w-24 h-24  rounded-2xl flex items-center justify-center text-5xl">
