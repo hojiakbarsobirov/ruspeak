@@ -413,20 +413,59 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Yordam (help) */}
-        <div className="px-6 py-8 bg-blue-500 my-5 rounded-lg">
-          <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
-            Ro'yxatdan o'tish tartibi:
-          </h3>
+        <div className="px-6 py-8 bg-gradient-to-br from-blue-50 to-indigo-100 my-5 rounded-2xl border-2 border-blue-200 shadow-lg">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-blue-500 p-3 rounded-full">
+              <FaCheckCircle className="text-white w-6 h-6" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800">
+              Ro'yxatdan o'tish tartibi
+            </h3>
+          </div>
 
-          <p className="text-white font-medium mb-2">
-            Ismi: <span>Aziz</span>
-          </p>
-          <p className="text-white font-medium mb-2">
-            Tel raqam: <span>+998 93 277 90 90</span>
-          </p>
-          <p className="text-white font-medium mb-2">
-            Tg/WhatsApp: <span>@azizbek</span>
-          </p>
+          <div className="space-y-4">
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+              <div className="flex items-center gap-3">
+                <div className="bg-blue-100 p-2.5 rounded-lg">
+                  <FaUser className="text-blue-600 w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-500 font-medium">Ismi</p>
+                  <p className="text-lg font-semibold text-gray-800">Aziz</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+              <div className="flex items-center gap-3">
+                <div className="bg-green-100 p-2.5 rounded-lg">
+                  <FaPhone className="text-green-600 w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-500 font-medium">Tel raqam</p>
+                  <p className="text-lg font-semibold text-gray-800">
+                    +998 93 277 90 90
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+              <div className="flex items-center gap-3">
+                <div className="bg-indigo-100 p-2.5 rounded-lg">
+                  <FaTelegramPlane className="text-indigo-600 w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-500 font-medium">
+                    Tg/WhatsApp
+                  </p>
+                  <p className="text-lg font-semibold text-gray-800">
+                    @azizbek
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Benefits Section */}
@@ -539,30 +578,32 @@ const PremiumLandingPage = () => {
 
         {/* Bottom CTA */}
         <section
-        style={{backgroundImage: "url('/form-background2.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center"
-        }}
-        className=" rounded-xl py-12 px-4">
-          <div className="px-6 py-8 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/60 shadow-lg">
-           <h3 className="text-2xl font-bold text-center mb-6 text-blue-600 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-  🎁 Chegirmani qo'lga kiritish uchun
-</h3>
+          style={{
+            backgroundImage: "url('/form-background2.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          className=" rounded-xl py-12 px-4"
+        >
+          <div className="px-6 py-8 rounded-2xl bg-white/20 backdrop-blur-sm border border-blue-600 shadow-lg">
+            <h3 className="text-2xl font-bold text-center mb-6 text-blue-600 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              🎁 Chegirmani qo'lga kiritish uchun
+            </h3>
 
             <div className="space-y-4">
               <div className="relative">
-                <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+                <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 z-10 pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Ismingiz"
                   value={bottomName}
                   onChange={(e) => setBottomName(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600"
+                  className="w-full pl-12 pr-4 py-4 bg-white backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600 relative z-0"
                 />
               </div>
 
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl z-10 pointer-events-none">
                   🇺🇿
                 </span>
                 <input
@@ -570,12 +611,12 @@ const PremiumLandingPage = () => {
                   placeholder="+998 90 555 55 55"
                   value={bottomPhone}
                   onChange={handleBottomPhoneChange}
-                  className="w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600"
+                  className="w-full pl-12 pr-4 py-4 bg-white backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600 relative z-0"
                 />
               </div>
 
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1 z-10 pointer-events-none">
                   <FaTelegramPlane className="text-blue-500 w-4 h-4" />
                   <FaWhatsapp className="text-green-600 w-4 h-4" />
                 </div>
@@ -584,7 +625,7 @@ const PremiumLandingPage = () => {
                   placeholder="Telegram/WhatsApp"
                   value={bottomExtraPhone}
                   onChange={(e) => setBottomExtraPhone(e.target.value)}
-                  className="w-full pl-14 pr-4 py-4 bg-white/60 backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg placeholder:text-gray-600"
+                  className="w-full pl-14 pr-4 py-4 bg-white backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg placeholder:text-gray-600 relative z-0"
                 />
               </div>
 
