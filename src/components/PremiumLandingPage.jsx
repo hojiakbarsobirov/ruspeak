@@ -450,30 +450,34 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Gift Section */}
-        <div className="px-6 py-6 my-10 bg-blue-500 bg-opacity-40 rounded-lg relative">
-          <div className="flex items-center gap-4">
-            <div className="flex-shrink-0">
-              <div className="w-24 h-24  rounded-2xl flex items-center justify-center text-5xl">
+        <section className="bg-blue-200 py-12 rounded-md">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 pl-36 border border-gray/60 shadow-lg relative overflow-visible">
+              <div className="flex items-center">
                 <img
-                  className="absolute w-[170px] left-[-20px]"
+                  className="absolute left-[-20px] w-44 h-auto drop-shadow-2xl transform hover:scale-105 transition-transform"
                   src="book3.png"
-                  alt=""
+                  alt="Bepul kitob"
                 />
+                <div className="flex-1 text-left pl-0 sm:pl-6">
+                  <h4 className="text-xl font-bold mb-1 text-gray-800">
+                    BEPUL SOVG'A!
+                  </h4>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    Hoziroq ro'yxatdan o'ting va{" "}
+                    <span className="font-bold text-blue-600">
+                      "Ko'chada gaplashamiz"
+                    </span>{" "}
+                    audio kitobini bepul qo'lga kiriting
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="text-white flex-1">
-              <h4 className="text-lg font-bold mb-1">BEPUL SOVG'A!</h4>
-              <p className="text-sm">
-                Hoziroq ro'yxatdan o'ting va{" "}
-                <span className="font-semibold">"Ko'chada gaplashamiz"</span>{" "}
-                audio kitobini bepul qo'lga kiriting
-              </p>
-            </div>
           </div>
-        </div>
+        </section>
 
         {/* Stats Section */}
-        <div className="px-6 py-8 bg-gray-50">
+        <div className="px-6 py-8 bg-gray-50 rounded-md my-5">
           <div className="grid grid-cols-2 gap-4">
             {stats.map((stat, idx) => (
               <div
@@ -534,87 +538,89 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="px-6 py-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600">
-          <h3 className="text-2xl font-bold text-center mb-6 text-white">
-            🎁 Chegirmani qo'lga kiritish uchun
-          </h3>
+        <section className="bg-blue-200 rounded-xl py-12 px-4">
+          <div className="px-6 py-8 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/60 shadow-lg">
+            <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">
+              🎁 Chegirmani qo'lga kiritish uchun
+            </h3>
 
-          <div className="space-y-4">
-            <div className="relative">
-              <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Ismingiz"
-                value={bottomName}
-                onChange={(e) => setBottomName(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
-              />
-            </div>
-
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
-                🇺🇿
-              </span>
-              <input
-                type="tel"
-                placeholder="+998 90 555 55 55"
-                value={bottomPhone}
-                onChange={handleBottomPhoneChange}
-                className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
-              />
-            </div>
-
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
-                <FaTelegramPlane className="text-blue-400 w-4 h-4" />
-                <FaWhatsapp className="text-green-500 w-4 h-4" />
+            <div className="space-y-4">
+              <div className="relative">
+                <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Ismingiz"
+                  value={bottomName}
+                  onChange={(e) => setBottomName(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600"
+                />
               </div>
-              <input
-                type="text"
-                placeholder="Telegram/WhatsApp"
-                value={bottomExtraPhone}
-                onChange={(e) => setBottomExtraPhone(e.target.value)}
-                className="w-full pl-14 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg"
-              />
-            </div>
 
-            <button
-              onClick={handleBottomSubmit}
-              disabled={bottomLoading}
-              className={`w-full py-4 rounded-xl font-bold text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
-                bottomSuccess
-                  ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                  : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-              } disabled:opacity-50 flex items-center justify-center gap-2`}
-            >
-              {bottomLoading ? (
-                <>
-                  <div className="w-6 h-6 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                  Yuborilmoqda...
-                </>
-              ) : bottomSuccess ? (
-                <>
-                  <FaCheckCircle className="w-6 h-6" />
-                  Muvaffaqiyatli!
-                </>
-              ) : (
-                <>
-                  Ro'yxatdan O'ting
-                  <span className="text-2xl">→</span>
-                </>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
+                  🇺🇿
+                </span>
+                <input
+                  type="tel"
+                  placeholder="+998 90 555 55 55"
+                  value={bottomPhone}
+                  onChange={handleBottomPhoneChange}
+                  className="w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600"
+                />
+              </div>
+
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
+                  <FaTelegramPlane className="text-blue-500 w-4 h-4" />
+                  <FaWhatsapp className="text-green-600 w-4 h-4" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Telegram/WhatsApp"
+                  value={bottomExtraPhone}
+                  onChange={(e) => setBottomExtraPhone(e.target.value)}
+                  className="w-full pl-14 pr-4 py-4 bg-white/60 backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg placeholder:text-gray-600"
+                />
+              </div>
+
+              <button
+                onClick={handleBottomSubmit}
+                disabled={bottomLoading}
+                className={`w-full py-4 rounded-xl font-bold text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
+                  bottomSuccess
+                    ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                    : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+                } disabled:opacity-50 flex items-center justify-center gap-2`}
+              >
+                {bottomLoading ? (
+                  <>
+                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Yuborilmoqda...
+                  </>
+                ) : bottomSuccess ? (
+                  <>
+                    <FaCheckCircle className="w-6 h-6" />
+                    Muvaffaqiyatli!
+                  </>
+                ) : (
+                  <>
+                    Ro'yxatdan O'ting
+                    <span className="text-2xl">→</span>
+                  </>
+                )}
+              </button>
+
+              {bottomSuccess && (
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 text-center flex items-center justify-center gap-2 border border-white/80">
+                  <FaPhone className="text-blue-600 w-5 h-5" />
+                  <p className="text-blue-600 font-semibold text-sm">
+                    Siz bilan tez orada bog'lanamiz
+                  </p>
+                </div>
               )}
-            </button>
-
-            {bottomSuccess && (
-              <div className="bg-white rounded-xl p-4 text-center flex items-center justify-center gap-2">
-                <FaPhone className="text-blue-600 w-5 h-5" />
-                <p className="text-blue-600 font-semibold text-sm">
-                  Siz bilan tez orada bog'lanamiz
-                </p>
-              </div>
-            )}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
