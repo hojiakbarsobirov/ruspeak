@@ -489,7 +489,12 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Gift Section */}
-        <section className="bg-blue-200 py-12 rounded-md">
+        <section
+        style={{backgroundImage: "url(form-background2.jpg)",
+          backgroundSize: "",
+          backgroundPosition: ""
+        }}
+        className="py-12 rounded-md">
           <div className="max-w-4xl mx-auto px-4">
             <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 pl-36 border border-gray/60 shadow-lg relative overflow-visible">
               <div className="flex items-center">
@@ -502,7 +507,7 @@ const PremiumLandingPage = () => {
                   <h4 className="text-xl font-bold mb-1 text-gray-800">
                     BEPUL SOVG'A!
                   </h4>
-                  <p className="text-sm text-gray-700 leading-relaxed">
+                  <p className="text-sm text-gray-700 font-medium leading-relaxed">
                     Hoziroq ro'yxatdan o'ting va{" "}
                     <span className="font-bold text-blue-600">
                       "Ko'chada gaplashamiz"
