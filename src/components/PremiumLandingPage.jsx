@@ -430,7 +430,7 @@ const PremiumLandingPage = () => {
                   <FaUser className="text-blue-600 w-5 h-5" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-gray-500 font-medium">Ismi</p>
+                  <p className="text-sm text-gray-500 font-medium">Ism</p>
                   <p className="text-lg font-semibold text-gray-800">Aziz</p>
                 </div>
               </div>
