@@ -538,11 +538,16 @@ const PremiumLandingPage = () => {
         </div>
 
         {/* Bottom CTA */}
-        <section className="bg-blue-200 rounded-xl py-12 px-4">
+        <section
+        style={{backgroundImage: "url('/form-background2.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
+        className=" rounded-xl py-12 px-4">
           <div className="px-6 py-8 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/60 shadow-lg">
-            <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">
-              🎁 Chegirmani qo'lga kiritish uchun
-            </h3>
+           <h3 className="text-2xl font-bold text-center mb-6 text-blue-600 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+  🎁 Chegirmani qo'lga kiritish uchun
+</h3>
 
             <div className="space-y-4">
               <div className="relative">
