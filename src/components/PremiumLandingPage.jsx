@@ -307,7 +307,7 @@ const PremiumLandingPage = () => {
                   className="text-white/90 text-center text-xs mb-4"
                   style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.5)" }}
                 >
-                  va bebul sovg'ani q'lga kiriting!
+                  va bebul sovg'ani qo'lga kiriting!
                 </p>
 
                 <div className="flex justify-center gap-3">
