@@ -276,7 +276,7 @@ const PremiumLandingPage = () => {
           <div className="absolute "></div>
 
           <div className="relative z-10 px-6 pt-12 pb-8">
-            <div className="text-center text-blue-600 mb-8">
+            <div className="text-center text-yellow-500 mb-8">
               <div className="w-full flex justify-center items-start relative bottom-8">
                 <img className="w-[180px]" src="/logos.png" alt="" />
               </div>
