@@ -300,16 +300,16 @@ const PremiumLandingPage = () => {
             {/* Registration Card */}
             <div className="backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
               {/* Countdown Timer */}
-              <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl p-6 mb-6 shadow-lg">
+              <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl p-2 mb-6 shadow-lg">
                 <p
-                  className="text-white text-center text-sm font-semibold mb-3"
+                  className="text-white text-center text-sm font-semibold mb-1"
                   style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.6)" }}
                 >
                   Hoziroq ro'yxatdan o'ting
                 </p>
 
                 <p
-                  className="text-white/90 text-center text-xs mb-4"
+                  className="text-white/90 text-center text-xs mb-2"
                   style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.5)" }}
                 >
                   va bebul sovg'ani qo'lga kiriting!
