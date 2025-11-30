@@ -277,6 +277,9 @@ const PremiumLandingPage = () => {
 
           <div className="relative z-10 px-6 pt-12 pb-8">
             <div className="text-center text-blue-600 mb-8">
+              <div className="w-full flex justify-center items-start relative bottom-8">
+                <img className="w-[180px]" src="/logos.png" alt="" />
+              </div>
               <h1
                 className="text-3xl font-bold mb-2"
                 style={{ textShadow: "0px 3px 5px rgba(255,255,255,0.6)" }}
