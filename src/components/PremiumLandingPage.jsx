@@ -277,19 +277,21 @@ const PremiumLandingPage = () => {
 
           <div className="relative z-10 px-6 pt-12 pb-8">
             <div className="text-center text-yellow-500 mb-8">
+              
               <div className="w-full flex justify-center items-start relative bottom-8">
-                <img className="w-[180px]" src="/logos.png" alt="" />
+                <img className="w-[120px]" src="/logoss.png" alt="" />
               </div>
+              
               <h1
                 className="text-3xl font-bold mb-2"
-                style={{ textShadow: "0px 3px 5px rgba(255,255,255,0.6)" }}
+                style={{ textShadow: "0px 3px 5px rgba(0,0,0,0.6)" }}
               >
                 0 Dan Razgovorgacha
               </h1>
 
               <h2
                 className="text-5xl font-black"
-                style={{ textShadow: "0px 4px 6px rgba(255,255,255,0.7)" }}
+                style={{ textShadow: "0px 3px 5px rgba(0,0,0,0.6)" }}
               >
                 Atigi 60 Kunda!
               </h2>
