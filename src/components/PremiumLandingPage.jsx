@@ -504,8 +504,8 @@ const PremiumLandingPage = () => {
             <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 pl-36 border border-gray/60 shadow-lg relative overflow-visible">
               <div className="flex items-center">
                 <img
-                  className="absolute left-[-20px] w-44 h-auto drop-shadow-2xl transform hover:scale-105 transition-transform"
-                  src="book3.png"
+                  className="absolute left-[-35px] w-[230px] h-auto drop-shadow-2xl transform hover:scale-105 transition-transform"
+                  src="kitob.png"
                   alt="Bepul kitob"
                 />
                 <div className="flex-1 text-left pl-0 sm:pl-6">
