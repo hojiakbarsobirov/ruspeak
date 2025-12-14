@@ -9,7 +9,7 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIza...",
@@ -148,6 +148,7 @@ const PremiumLandingPage = () => {
         date: date,
         time: time,
         timestamp: now.toISOString(),
+        createdAt: serverTimestamp(),
         formLocation: "top",
       });
 
@@ -203,6 +204,7 @@ const PremiumLandingPage = () => {
         date: date,
         time: time,
         timestamp: now.toISOString(),
+        createdAt: serverTimestamp(),
         formLocation: "bottom",
       });
 
