@@ -272,16 +272,16 @@ const PremiumLandingPage = () => {
           <div
             className="absolute inset-0 bg-no-repeat bg-center bg-cover"
             style={{
-              backgroundImage: "url('/background-img.jpg')",
+              backgroundImage: "url('/winter-banner2.jpg')",
             }}
           ></div>
           <div className="absolute "></div>
 
           <div className="relative z-10 px-6 pt-12 pb-8">
-            <div className="text-center text-yellow-500 mb-8">
+            <div className="text-center text-white mb-8">
               
-              <div className="w-full flex justify-center items-start relative bottom-8">
-                <img className="w-[120px]" src="/logoss.png" alt="" />
+              <div className="w-full flex justify-center items-start relative bottom-16">
+                <img className="w-[150px]" src="/logo-white.png" alt="" />
               </div>
               
               <h1
