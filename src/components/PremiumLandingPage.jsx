@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {
-  FaUser,
-  FaPhone,
-  FaWhatsapp,
-  FaTelegramPlane,
-  FaCheckCircle,
-  FaStar,
-  FaPaperPlane,
-} from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
+/* ─── Firebase ─── */
 const firebaseConfig = {
   apiKey: "AIza...",
   authDomain: "ruspeak-5c210.firebaseapp.com",
@@ -19,668 +11,482 @@ const firebaseConfig = {
   messagingSenderId: "1234567890",
   appId: "1:1234567890:web:abcdef12345",
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const PremiumLandingPage = () => {
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [extraPhone, setExtraPhone] = useState("");
+/* ─── Slide data – o'zingizning rasmlaringizni qo'ying ─── */
+const SLIDES = [
+  {
+    image: "/slide1.jpg",          // o'z rasmingiz
+    title: "TALABALARIMIZNING",
+    subtitle: "NATIJALARI",
+    big: "B2",
+    bigSub: "Darajasi",
+    bg: "linear-gradient(160deg,#2d2d2d 0%,#1a1a2e 100%)",
+  },
+  {
+    image: "/slide2.jpg",
+    title: "0 DAN RAZGOVORGACHA",
+    subtitle: "ATIGI",
+    big: "60",
+    bigSub: "Kunda",
+    bg: "linear-gradient(160deg,#1a3a5c 0%,#0d1b2a 100%)",
+  },
+  {
+    image: "/slide3.jpg",
+    title: "MAMNUN O'QUVCHILAR",
+    subtitle: "BIZDA",
+    big: "95%",
+    bigSub: "Natija",
+    bg: "linear-gradient(160deg,#1d3c2f 0%,#0a1f14 100%)",
+  },
+];
+
+
+
+/* ─── Helpers ─── */
+function formatPhone(v) {
+  const n = v.replace(/\D/g, "");
+  if (!n.length) return "";
+  const after = n.startsWith("998") ? n.slice(3) : n;
+  let f = "+998";
+  if (after.length > 0) f += " " + after.slice(0, 2);
+  if (after.length > 2) f += " " + after.slice(2, 5);
+  if (after.length > 5) f += " " + after.slice(5, 7);
+  if (after.length > 7) f += " " + after.slice(7, 9);
+  return f;
+}
+
+/* ─── Icons (inline SVG, no extra deps) ─── */
+const IconUser = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+  </svg>
+);
+const IconPhone = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.36a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+  </svg>
+);
+const IconTelegram = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="#2AABEE">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.667l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.978.892z"/>
+  </svg>
+);
+const IconWhatsApp = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.397 5.61L0 24l6.554-1.374A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.002-1.368l-.36-.214-3.888.815.826-3.777-.235-.389A9.79 9.79 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+  </svg>
+);
+const IconCheck = ({ color = "#1d6fe5", size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+);
+const FlagUZ = () => (
+  <svg width="20" height="14" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: 2, flexShrink: 0 }}>
+    <rect width="60" height="40" fill="#1EB53A"/>
+    <rect width="60" height="13.3" fill="#0099B5"/>
+    <rect y="13.3" width="60" height="2" fill="#fff"/>
+    <rect y="24.7" width="60" height="2" fill="#fff"/>
+    {/* Crescent */}
+    <circle cx="14" cy="6.5" r="4" fill="#fff"/>
+    <circle cx="16" cy="6.5" r="3.1" fill="#0099B5"/>
+    {/* Stars - row 1 */}
+    <g fill="#fff" fontSize="2">
+      {[0,1,2].map(i => (
+        <polygon key={i}
+          points="0,-1.2 0.35,-0.48 1.14,-0.37 0.57,0.18 0.7,0.97 0,0.6 -0.7,0.97 -0.57,0.18 -1.14,-0.37 -0.35,-0.48"
+          transform={`translate(${21 + i*4},5)`}
+          style={{ transform: `translate(${21 + i*4}px, 5px) scale(1.5)` }}
+        />
+      ))}
+      {[0,1,2,3].map(i => (
+        <polygon key={i+3}
+          points="0,-1.2 0.35,-0.48 1.14,-0.37 0.57,0.18 0.7,0.97 0,0.6 -0.7,0.97 -0.57,0.18 -1.14,-0.37 -0.35,-0.48"
+          transform={`translate(${19 + i*4},8.5)`}
+          style={{ transform: `translate(${19 + i*4}px, 8.5px) scale(1.5)` }}
+        />
+      ))}
+      {[0,1,2].map(i => (
+        <polygon key={i+7}
+          points="0,-1.2 0.35,-0.48 1.14,-0.37 0.57,0.18 0.7,0.97 0,0.6 -0.7,0.97 -0.57,0.18 -1.14,-0.37 -0.35,-0.48"
+          transform={`translate(${21 + i*4},12)`}
+          style={{ transform: `translate(${21 + i*4}px, 12px) scale(1.5)` }}
+        />
+      ))}
+    </g>
+  </svg>
+);
+
+const FlagRU = () => (
+  <svg width="20" height="14" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: 2, flexShrink: 0 }}>
+    <rect width="60" height="40" fill="#fff"/>
+    <rect y="13.3" width="60" height="13.4" fill="#0039A6"/>
+    <rect y="26.7" width="60" height="13.3" fill="#D52B1E"/>
+  </svg>
+);
+
+const IconChevron = ({ dir = "right" }) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+    style={{ transform: dir === "left" ? "rotate(180deg)" : "none" }}>
+    <polyline points="9 18 15 12 9 6"/>
+  </svg>
+);
+
+/* ─── LeadForm ─── */
+function LeadForm({ formLocation, dark = false }) {
+  const [name, setName]       = useState("");
+  const [phone, setPhone]     = useState("");
+  const [contact, setContact] = useState("telegram");
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [lang, setLang]       = useState("uz");
 
-  // Bottom form states
-  const [bottomName, setBottomName] = useState("");
-  const [bottomPhone, setBottomPhone] = useState("");
-  const [bottomExtraPhone, setBottomExtraPhone] = useState("");
-  const [bottomLoading, setBottomLoading] = useState(false);
-  const [bottomSuccess, setBottomSuccess] = useState(false);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const testimonialTimer = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % 3);
-    }, 5000);
-    return () => clearInterval(testimonialTimer);
-  }, []);
-
-  // Meta Pixel
-  useEffect(() => {
-    // Load Facebook Pixel
-    !(function (f, b, e, v, n, t, s) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod
-          ? n.callMethod.apply(n, arguments)
-          : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = "2.0";
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s);
-    })(
-      window,
-      document,
-      "script",
-      "https://connect.facebook.net/en_US/fbevents.js"
-    );
-    window.fbq("init", "1543301330183143");
-    window.fbq("track", "PageView");
-  }, []);
-
-  const formatPhoneNumber = (value) => {
-    const numbers = value.replace(/\D/g, "");
-    if (numbers.length === 0) return "";
-
-    let formatted = "+998";
-    const afterCode = numbers.startsWith("998") ? numbers.slice(3) : numbers;
-
-    if (afterCode.length > 0) formatted += " " + afterCode.slice(0, 2);
-    if (afterCode.length > 2) formatted += " " + afterCode.slice(2, 5);
-    if (afterCode.length > 5) formatted += " " + afterCode.slice(5, 7);
-    if (afterCode.length > 7) formatted += " " + afterCode.slice(7, 9);
-
-    return formatted;
+  const handlePhone = (e) => {
+    const v = e.target.value;
+    if (v === "" || v === "+") { setPhone(""); return; }
+    setPhone(formatPhone(v));
   };
 
-  const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    if (value === "" || value === "+") {
-      setPhone("");
-      return;
-    }
-    const formatted = formatPhoneNumber(value);
-    setPhone(formatted);
-  };
-
-  const handleBottomPhoneChange = (e) => {
-    const value = e.target.value;
-    if (value === "" || value === "+") {
-      setBottomPhone("");
-      return;
-    }
-    const formatted = formatPhoneNumber(value);
-    setBottomPhone(formatted);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const phoneNumbers = phone.replace(/\D/g, "");
-
-    if (name.trim().length < 4) {
-      alert("Ism kamida 4 ta harfdan iborat bo'lishi kerak");
-      return;
-    }
-
-    if (!phoneNumbers || phoneNumbers.length !== 12 || !extraPhone.trim()) {
-      alert(
-        "Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting"
-      );
-      return;
-    }
-
+  const submit = async () => {
+    if (name.trim().length < 2) { alert("Ismingizni kiriting"); return; }
+    const nums = phone.replace(/\D/g, "");
+    if (!nums || nums.length !== 12) { alert("To'liq telefon raqam kiriting (+998 XX XXX XX XX)"); return; }
     setLoading(true);
-
     try {
       const now = new Date();
-      const date = now.toLocaleDateString("uz-UZ");
-      const time = now.toLocaleTimeString("uz-UZ");
-
       await addDoc(collection(db, "registrations"), {
         name: name.trim(),
-        phone: phone,
-        extraPhone: extraPhone.trim(),
-        date: date,
-        time: time,
+        phone,
+        contactType: contact,
+        username: username.trim(),
+        lang,
+        date: now.toLocaleDateString("uz-UZ"),
+        time: now.toLocaleTimeString("uz-UZ"),
         timestamp: now.toISOString(),
         createdAt: serverTimestamp(),
-        formLocation: "top",
+        formLocation,
       });
-
-      // Track Facebook Pixel event
-      if (window.fbq) {
-        window.fbq("track", "Lead");
-      }
-
+      if (window.fbq) window.fbq("track", "Lead");
       setSuccess(true);
-      setName("");
-      setPhone("");
-      setExtraPhone("");
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (error) {
-      console.error("Xato yuz berdi:", error);
-      alert("Ma'lumot yuborilmadi, qayta urinib ko'ring.");
+      setName(""); setPhone(""); setUsername("");
+      setTimeout(() => setSuccess(false), 4000);
+    } catch (err) {
+      console.error(err);
+      alert("Xato yuz berdi, qayta urinib ko'ring.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleBottomSubmit = async (e) => {
-    e.preventDefault();
-    const phoneNumbers = bottomPhone.replace(/\D/g, "");
-
-    if (bottomName.trim().length < 4) {
-      alert("Ism kamida 4 ta harfdan iborat bo'lishi kerak");
-      return;
-    }
-
-    if (
-      !phoneNumbers ||
-      phoneNumbers.length !== 12 ||
-      !bottomExtraPhone.trim()
-    ) {
-      alert(
-        "Iltimos barcha maydonlarni to'ldiring va to'liq telefon raqam kiriting"
-      );
-      return;
-    }
-
-    setBottomLoading(true);
-
-    try {
-      const now = new Date();
-      const date = now.toLocaleDateString("uz-UZ");
-      const time = now.toLocaleTimeString("uz-UZ");
-
-      await addDoc(collection(db, "registrations"), {
-        name: bottomName.trim(),
-        phone: bottomPhone,
-        extraPhone: bottomExtraPhone.trim(),
-        date: date,
-        time: time,
-        timestamp: now.toISOString(),
-        createdAt: serverTimestamp(),
-        formLocation: "bottom",
-      });
-
-      // Track Facebook Pixel event
-      if (window.fbq) {
-        window.fbq("track", "Lead");
-      }
-
-      setBottomSuccess(true);
-      setBottomName("");
-      setBottomPhone("");
-      setBottomExtraPhone("");
-      setTimeout(() => setBottomSuccess(false), 3000);
-    } catch (error) {
-      console.error("Xato yuz berdi:", error);
-      alert("Ma'lumot yuborilmadi, qayta urinib ko'ring.");
-    } finally {
-      setBottomLoading(false);
-    }
+  const inp = {
+    width: "100%", boxSizing: "border-box",
+    padding: "13px 16px 13px 46px",
+    border: dark ? "1.5px solid rgba(255,255,255,0.22)" : "1.5px solid #e2e8f0",
+    borderRadius: 12,
+    fontSize: 15, fontFamily: "inherit",
+    color: dark ? "#fff" : "#1e293b",
+    background: dark ? "rgba(255,255,255,0.08)" : "#f8fafc",
+    outline: "none", transition: "border 0.2s, box-shadow 0.2s",
+  };
+  const iconWrap = {
+    position: "absolute", left: 14, top: "50%",
+    transform: "translateY(-50%)",
+    color: dark ? "rgba(255,255,255,0.5)" : "#94a3b8",
+    display: "flex", alignItems: "center", pointerEvents: "none",
   };
 
-  const benefits = [
-    "Jonli online darslar",
-    "Kichik guruhlar (8-10 kishi)",
-    "Kunlik amaliy mashg'ulotlar",
-    "24/7 ustoz yordami",
-    "Bepul qo'shimcha materiallar",
-    "Darslarni qayta ko'rish imkoniyati",
-  ];
+  return (
+    <div>
+      {/* Name */}
+      <div style={{ position: "relative", marginBottom: 12 }}>
+        <span style={iconWrap}><IconUser /></span>
+        <input style={inp} type="text" placeholder="Ismingiz"
+          value={name} onChange={e => setName(e.target.value)} />
+      </div>
 
-  const testimonials = [
-    {
-      name: "Dilshod Karimov",
-      text: "60 kun ichida haqiqatan ham gapirishni o'rgandim! Ajoyib kurs!",
-      rating: 5,
-    },
-    {
-      name: "Malika Azimova",
-      text: "O'qituvchilar juda professional. Har bir dars qiziqarli!",
-      rating: 5,
-    },
-    {
-      name: "Javohir Tursunov",
-      text: "Endi rus tilida erkin muloqot qila olaman. Rahmat!",
-      rating: 5,
-    },
-  ];
+      {/* Phone */}
+      <div style={{ position: "relative", marginBottom: 12 }}>
+        <span style={{ ...iconWrap, display: "flex", alignItems: "center" }}><FlagUZ /></span>
+        <input style={inp} type="tel" placeholder="+998 90 555 55 55"
+          value={phone} onChange={handlePhone} />
+      </div>
 
-  const stats = [
-    { num: "200+", label: "O'quvchilar" },
-    { num: "60", label: "Kun davom etadi" },
-    { num: "95%", label: "Mamnun o'quvchilar" },
-    { num: "24/7", label: "Yordam" },
-  ];
+      {/* Contact type label */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
+        <span style={{ fontSize: 13, color: dark ? "rgba(255,255,255,0.55)" : "#94a3b8" }}>
+          Qo'shimcha aloqa:
+        </span>
+        {["telegram","whatsapp"].map(c => (
+          <button key={c} onClick={() => setContact(c)} style={{
+            border: contact === c ? "1.5px solid #1d6fe5" : dark ? "1.5px solid rgba(255,255,255,0.2)" : "1.5px solid #e2e8f0",
+            borderRadius: 20, padding: "4px 12px", fontSize: 12, fontFamily: "inherit",
+            color: contact === c ? "#1d6fe5" : dark ? "rgba(255,255,255,0.6)" : "#64748b",
+            background: "transparent", cursor: "pointer",
+            display: "flex", alignItems: "center", gap: 5, fontWeight: contact === c ? 700 : 400,
+          }}>
+            {c === "telegram" ? <IconTelegram /> : <IconWhatsApp />}
+            {c === "telegram" ? "Telegram" : "WhatsApp"}
+          </button>
+        ))}
+      </div>
 
-  const hours = Math.floor(timeLeft / 3600);
-  const minutes = Math.floor((timeLeft % 3600) / 60);
-  const seconds = timeLeft % 60;
+      {/* Username */}
+      <div style={{ position: "relative", marginBottom: 4 }}>
+        <span style={{ ...iconWrap }}>
+          {contact === "telegram" ? <IconTelegram /> : <IconWhatsApp />}
+        </span>
+        <input style={inp} type="text" placeholder="@username"
+          value={username} onChange={e => setUsername(e.target.value)} />
+      </div>
+      <div style={{ textAlign: "right", fontSize: 12, color: dark ? "rgba(255,255,255,0.35)" : "#94a3b8", marginBottom: 16 }}>
+        Majburiy emas
+      </div>
+
+      {/* Submit */}
+      <button onClick={submit} disabled={loading} style={{
+        width: "100%", padding: "15px", border: "none", borderRadius: 12,
+        background: success
+          ? "linear-gradient(135deg,#22c55e,#15803d)"
+          : "linear-gradient(135deg,#1d6fe5,#1045a8)",
+        color: "#fff", fontSize: 16, fontWeight: 800, fontFamily: "inherit",
+        cursor: loading ? "not-allowed" : "pointer",
+        boxShadow: "0 4px 20px rgba(29,111,229,0.35)",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+        opacity: loading ? 0.75 : 1, transition: "all 0.2s",
+      }}>
+        {loading ? (
+          <><Spinner /> Yuborilmoqda...</>
+        ) : success ? (
+          <><IconCheck color="#fff" size={18} /> Muvaffaqiyatli!</>
+        ) : "Yuborish"}
+      </button>
+
+      {/* Lang switcher (only top form) */}
+      {formLocation === "top" && (
+        <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+          {[{code:"uz",Flag:FlagUZ,label:"O'zbekcha"},{code:"ru",Flag:FlagRU,label:"Русский"}].map(l => (
+            <button key={l.code} onClick={() => setLang(l.code)} style={{
+              flex: 1, padding: "10px", borderRadius: 10, fontFamily: "inherit",
+              fontSize: 14, fontWeight: 700, cursor: "pointer",
+              background: lang === l.code ? "#111" : "#fff",
+              color: lang === l.code ? "#fff" : "#333",
+              border: lang === l.code ? "1.5px solid #111" : "1.5px solid #e2e8f0",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+            }}>
+              <l.Flag /> {l.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {success && (
+        <div style={{
+          marginTop: 12, background: dark ? "rgba(29,111,229,0.2)" : "#eff6ff",
+          border: "1.5px solid #1d6fe5", borderRadius: 12,
+          padding: "12px 16px", display: "flex", alignItems: "center",
+          justifyContent: "center", gap: 8,
+        }}>
+          <IconPhone /><span style={{ color: "#1d6fe5", fontWeight: 700, fontSize: 14 }}>
+            Siz bilan tez orada bog'lanamiz!
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Spinner() {
+  return (
+    <span style={{
+      width: 20, height: 20, borderRadius: "50%",
+      border: "3px solid rgba(255,255,255,0.35)",
+      borderTop: "3px solid #fff",
+      display: "inline-block",
+      animation: "spin 0.7s linear infinite",
+    }} />
+  );
+}
+
+/* ─── Slider ─── */
+function HeroSlider() {
+  const [active, setActive] = useState(0);
+  const total = SLIDES.length;
+
+  useEffect(() => {
+    const t = setInterval(() => setActive(p => (p + 1) % total), 4500);
+    return () => clearInterval(t);
+  }, []);
+
+  const s = SLIDES[active];
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-0">
-      <div className="w-full max-w-md bg-white rounded-3xl  overflow-hidden">
-        {/* Hero Section */}
-        <div className="relative rounded-lg overflow-hidden">
-          <div
-            className="absolute inset-0 bg-no-repeat bg-center bg-cover"
-            style={{
-              backgroundImage: "url('/winter-banner2.jpg')",
-            }}
-          ></div>
-          <div className="absolute "></div>
-
-          <div className="relative z-10 px-6 pt-12 pb-8">
-            <div className="text-center text-white mb-8">
-              
-              <div className="w-full flex justify-center items-start relative bottom-16">
-                <img className="w-[150px]" src="/logo-white.png" alt="" />
-              </div>
-              
-              <h1
-                className="text-3xl font-bold mb-2"
-                style={{ textShadow: "0px 3px 5px rgba(0,0,0,0.6)" }}
-              >
-                0 Dan Razgovorgacha
-              </h1>
-
-              <h2
-                className="text-5xl font-black"
-                style={{ textShadow: "0px 3px 5px rgba(0,0,0,0.6)" }}
-              >
-                Atigi 60 Kunda!
-              </h2>
-            </div>
-
-            {/* Registration Card */}
-            <div className="backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-6 border-2 border-blue-600">
-              {/* Countdown Timer */}
-              <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl p-2 mb-6 shadow-lg">
-                <p
-                  className="text-white text-center text-sm font-semibold mb-1"
-                  style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.6)" }}
-                >
-                  Hoziroq ro'yxatdan o'ting
-                </p>
-
-                <p
-                  className="text-white/90 text-center text-xs mb-2"
-                  style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.5)" }}
-                >
-                  va bebul sovg'ani qo'lga kiriting!
-                </p>
-
-                <div className="flex justify-center gap-3">
-                  {[
-                    { val: hours, label: "Soat" },
-                    { val: minutes, label: "Minut" },
-                    { val: seconds, label: "Sekund" },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex flex-col items-center">
-                      <div className="bg-white text-blue-600 rounded-xl px-4 py-3 font-mono font-bold text-2xl shadow-lg min-w-[60px] text-center">
-                        {String(item.val).padStart(2, "0")}
-                      </div>
-
-                      <span
-                        className="text-white text-xs mt-2 font-semibold"
-                        style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.6)" }}
-                      >
-                        {item.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Form */}
-              <div className="space-y-4">
-                <div className="relative">
-                  <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Ismingiz"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
-                  />
-                </div>
-
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
-                    🇺🇿
-                  </span>
-                  <input
-                    type="tel"
-                    placeholder="+998 90 555 55 55"
-                    value={phone}
-                    onChange={handlePhoneChange}
-                    className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg"
-                  />
-                </div>
-
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
-                    <FaTelegramPlane className="text-blue-400 w-4 h-4" />
-                    <FaWhatsapp className="text-green-500 w-4 h-4" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Telegram/WhatsApp"
-                    value={extraPhone}
-                    onChange={(e) => setExtraPhone(e.target.value)}
-                    className="w-full pl-14 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg"
-                  />
-                </div>
-
-                <button
-                  onClick={handleSubmit}
-                  disabled={loading}
-                  className={`w-full py-4 rounded-xl font-bold text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
-                    success
-                      ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                      : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                  } disabled:opacity-50 flex items-center justify-center gap-2`}
-                >
-                  {loading ? (
-                    <>
-                      <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Yuborilmoqda...
-                    </>
-                  ) : success ? (
-                    <>
-                      <FaCheckCircle className="w-6 h-6" />
-                      Muvaffaqiyatli!
-                    </>
-                  ) : (
-                    <>
-                      Ro'yxatdan O'ting
-                      <span className="text-2xl">→</span>
-                    </>
-                  )}
-                </button>
-
-                {success && (
-                  <div className="bg-blue-50 border-2 border-blue-500 rounded-xl p-4 text-center flex items-center justify-center gap-2">
-                    <FaPhone className="text-blue-600 w-5 h-5" />
-                    <p className="text-blue-700 font-semibold text-sm">
-                      Siz bilan tez orada bog'lanamiz
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Yordam (help) */}
-        <div className="px-6 py-8 bg-gradient-to-br from-blue-50 to-indigo-100 my-5 rounded-2xl border-2 border-blue-200 shadow-lg">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-blue-500 p-3 rounded-full">
-              <FaCheckCircle className="text-white w-6 h-6" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-800">
-              Ro'yxatdan o'tish tartibi
-            </h3>
-          </div>
-
-          <div className="space-y-4">
-            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-100 p-2.5 rounded-lg">
-                  <FaUser className="text-blue-600 w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 font-medium">Ismingiz</p>
-                  <p className="text-lg font-semibold text-gray-800">Aziz</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-100 p-2.5 rounded-lg">
-                  <FaPhone className="text-green-600 w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 font-medium">Tel raqam</p>
-                  <p className="text-lg font-semibold text-gray-800">
-                    +998 93 277 90 90
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
-              <div className="flex items-center gap-3">
-                <div className="bg-indigo-100 p-2.5 rounded-lg">
-                  <FaTelegramPlane className="text-indigo-600 w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 font-medium">
-                    Tg/WhatsApp
-                  </p>
-                  <p className="text-lg font-semibold text-gray-800">
-                    @azizbek
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Benefits Section */}
-        <div className="px-6 py-8 bg-gradient-to-br my-5 rounded-lg from-blue-500 to-blue-600">
-          <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
-            ⚡ Kurs Afzalliklari:
-          </h3>
-          <ul className="space-y-3">
-            {benefits.map((benefit, idx) => (
-              <li
-                key={idx}
-                className="flex items-center gap-3 text-base text-white"
-              >
-                <div className="bg-white text-blue-600 rounded-full p-1 flex-shrink-0">
-                  <FaCheckCircle className="w-4 h-4" />
-                </div>
-                {benefit}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Gift Section */}
-        <section
-        style={{backgroundImage: "url(form-background2.jpg)",
-          backgroundSize: "",
-          backgroundPosition: ""
+    <div style={{
+      position: "relative", width: "100%", height: "100%",
+      minHeight: 480, overflow: "hidden",
+      background: s.bg, transition: "background 0.6s",
+      display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center",
+    }}>
+      {/* Background image */}
+      <img
+        key={active}
+        src={s.image}
+        alt=""
+        style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", opacity: 0.35,
+          animation: "fadeIn 0.6s ease",
         }}
-        className="py-12 rounded-md">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 pl-36 border border-gray/60 shadow-lg relative overflow-visible">
-              <div className="flex items-center">
-                <img
-                  className="absolute left-[-35px] w-[230px] h-auto drop-shadow-2xl transform hover:scale-105 transition-transform"
-                  src="kitob.png"
-                  alt="Bepul kitob"
-                />
-                <div className="flex-1 text-left pl-0 sm:pl-6">
-                  <h4 className="text-xl font-bold mb-1 text-gray-800">
-                    BEPUL SOVG'A!
-                  </h4>
-                  <p className="text-sm text-gray-700 font-medium leading-relaxed">
-                    Hoziroq ro'yxatdan o'ting va{" "}
-                    <span className="font-bold text-blue-600">
-                      "Ko'chada gaplashamiz"
-                    </span>{" "}
-                    audio kitobini bepul qo'lga kiriting
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        onError={e => { e.target.style.display = "none"; }}
+      />
 
-        {/* Stats Section */}
-        <div className="px-6 py-8 bg-gray-50 rounded-md my-5">
-          <div className="grid grid-cols-2 gap-4">
-            {stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-center text-white shadow-xl"
-              >
-                <div className="text-3xl font-black mb-2">{stat.num}</div>
-                <div className="text-sm opacity-90">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+      {/* Content */}
+      <div style={{
+        position: "relative", zIndex: 2, textAlign: "center",
+        padding: "40px 32px", color: "#fff",
+        animation: "slideUp 0.5s ease",
+      }}>
+        <p style={{ fontSize: 14, fontWeight: 700, letterSpacing: 2, color: "rgba(255,255,255,0.7)", marginBottom: 12, textTransform: "uppercase" }}>
+          {s.title}
+        </p>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", marginBottom: 20, textTransform: "uppercase", letterSpacing: 1 }}>
+          {s.subtitle}
+        </p>
+        <div style={{
+          fontSize: 96, fontWeight: 900, lineHeight: 1,
+          color: "#fff", marginBottom: 8,
+          textShadow: "0 4px 24px rgba(0,0,0,0.5)",
+        }}>
+          {s.big}
         </div>
-
-        {/* Testimonials */}
-        <div className="px-6 py-8 bg-white">
-          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-            💬 O'quvchilar Fikrlari
-          </h2>
-          <div className="relative min-h-[200px]">
-            {testimonials.map((testimonial, idx) => (
-              <div
-                key={idx}
-                className={`transition-all duration-500 ${
-                  idx === activeTestimonial
-                    ? "opacity-100 transform scale-100"
-                    : "opacity-0 absolute inset-0 transform scale-95 pointer-events-none"
-                }`}
-              >
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-lg">
-                  <div className="flex gap-1 mb-3 justify-center">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <FaStar key={i} className="w-5 h-5 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-lg text-gray-700 text-center mb-3 italic">
-                    "{testimonial.text}"
-                  </p>
-                  <p className="text-center font-bold text-blue-600">
-                    — {testimonial.name}
-                  </p>
-                </div>
-              </div>
-            ))}
-            <div className="flex justify-center gap-2 mt-4">
-              {testimonials.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveTestimonial(idx)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    idx === activeTestimonial
-                      ? "bg-blue-600 w-8"
-                      : "bg-gray-300"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>
+          {s.bigSub}
         </div>
+      </div>
 
-        {/* Bottom CTA */}
-        <section
-          style={{
-            backgroundImage: "url('/form-background2.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          className=" rounded-xl py-12 px-4"
-        >
-          <div className="px-6 py-8 rounded-2xl bg-white/20 backdrop-blur-sm border border-blue-600 shadow-lg">
-            <h3 className="text-2xl font-bold text-center mb-6 text-blue-600 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              🎁 Chegirmani qo'lga kiritish uchun
-            </h3>
+      {/* Arrows */}
+      <button onClick={() => setActive((active - 1 + total) % total)} style={{
+        position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+        background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%",
+        width: 36, height: 36, cursor: "pointer", color: "#fff",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        backdropFilter: "blur(4px)",
+      }}><IconChevron dir="left" /></button>
+      <button onClick={() => setActive((active + 1) % total)} style={{
+        position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
+        background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%",
+        width: 36, height: 36, cursor: "pointer", color: "#fff",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        backdropFilter: "blur(4px)",
+      }}><IconChevron dir="right" /></button>
 
-            <div className="space-y-4">
-              <div className="relative">
-                <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 z-10 pointer-events-none" />
-                <input
-                  type="text"
-                  placeholder="Ismingiz"
-                  value={bottomName}
-                  onChange={(e) => setBottomName(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600 relative z-0"
-                />
-              </div>
-
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl z-10 pointer-events-none">
-                  🇺🇿
-                </span>
-                <input
-                  type="tel"
-                  placeholder="+998 90 555 55 55"
-                  value={bottomPhone}
-                  onChange={handleBottomPhoneChange}
-                  className="w-full pl-12 pr-4 py-4 bg-white backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-lg placeholder:text-gray-600 relative z-0"
-                />
-              </div>
-
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1 z-10 pointer-events-none">
-                  <FaTelegramPlane className="text-blue-500 w-4 h-4" />
-                  <FaWhatsapp className="text-green-600 w-4 h-4" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Telegram/WhatsApp"
-                  value={bottomExtraPhone}
-                  onChange={(e) => setBottomExtraPhone(e.target.value)}
-                  className="w-full pl-14 pr-4 py-4 bg-white backdrop-blur-sm border-2 border-gray-300 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 outline-none transition-all text-lg placeholder:text-gray-600 relative z-0"
-                />
-              </div>
-
-              <button
-                onClick={handleBottomSubmit}
-                disabled={bottomLoading}
-                className={`w-full py-4 rounded-xl font-bold text-lg text-white transition-all duration-300 transform hover:scale-105 shadow-xl ${
-                  bottomSuccess
-                    ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                    : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                } disabled:opacity-50 flex items-center justify-center gap-2`}
-              >
-                {bottomLoading ? (
-                  <>
-                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Yuborilmoqda...
-                  </>
-                ) : bottomSuccess ? (
-                  <>
-                    <FaCheckCircle className="w-6 h-6" />
-                    Muvaffaqiyatli!
-                  </>
-                ) : (
-                  <>
-                    Ro'yxatdan O'ting
-                    <span className="text-2xl">→</span>
-                  </>
-                )}
-              </button>
-
-              {bottomSuccess && (
-                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 text-center flex items-center justify-center gap-2 border border-white/80">
-                  <FaPhone className="text-blue-600 w-5 h-5" />
-                  <p className="text-blue-600 font-semibold text-sm">
-                    Siz bilan tez orada bog'lanamiz
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
+      {/* Dots */}
+      <div style={{
+        position: "absolute", bottom: 16, left: 0, right: 0,
+        display: "flex", justifyContent: "center", gap: 6,
+      }}>
+        {SLIDES.map((_, i) => (
+          <button key={i} onClick={() => setActive(i)} style={{
+            width: i === active ? 24 : 8, height: 8, borderRadius: 4,
+            background: i === active ? "#fff" : "rgba(255,255,255,0.4)",
+            border: "none", cursor: "pointer", padding: 0,
+            transition: "all 0.3s",
+          }} />
+        ))}
       </div>
     </div>
+  );
+}
+
+/* ─── Main ─── */
+const PremiumLandingPage = () => {
+  /* Meta Pixel */
+  useEffect(() => {
+    !(function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+      t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    })(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init','1543301330183143');
+    window.fbq('track','PageView');
+  }, []);
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Nunito', sans-serif; background: #f1f5f9; }
+        input::placeholder { color: #94a3b8; }
+        input:focus { border-color: #1d6fe5 !important; box-shadow: 0 0 0 3px rgba(29,111,229,0.12) !important; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.35; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        button { transition: opacity 0.2s, transform 0.15s; }
+        button:hover:not(:disabled) { opacity: 0.9; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-slider { min-height: 300px !important; order: -1; }
+          .stats-grid { grid-template-columns: 1fr 1fr !important; }
+          .benefits-grid { grid-template-columns: 1fr !important; }
+          .card-wrap { padding: 16px !important; }
+          .section-pad { padding: 28px 20px !important; }
+
+        }
+        @media (max-width: 480px) {
+          .stats-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+      `}</style>
+
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", padding: "24px 12px 48px", background: "#f1f5f9" }}>
+        <div style={{ width: "100%", maxWidth: 980, background: "#fff", borderRadius: 24, overflow: "hidden" }}>
+
+          {/* ── HEADER ── */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 28px", borderBottom: "1px solid #f1f5f9" }}>
+            <div style={{
+              width: 44, height: 44, background: "#111", borderRadius: "50%",
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            }}>
+              {/* logo placeholder – replace with <img src="/logo.png"> */}
+              <span style={{ color: "#fff", fontSize: 10, fontWeight: 900, letterSpacing: -0.5, textAlign: "center", lineHeight: 1.2 }}>RS</span>
+            </div>
+            <div>
+              <strong style={{ fontSize: 17, fontWeight: 900, color: "#111", display: "block" }}>RuSpeak</strong>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>Online rus tili maktabi</span>
+            </div>
+          </div>
+
+          {/* ── HERO: 2 columns ── */}
+          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+
+            {/* LEFT: Form */}
+            <div className="card-wrap" style={{ padding: "40px 36px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <h1 style={{ fontSize: 28, fontWeight: 900, color: "#111", lineHeight: 1.25, marginBottom: 10 }}>
+                <span style={{ color: "#1d6fe5" }}>RUS TILI</span> ni{"\n "}
+                o'rganmoqchimisiz?
+              </h1>
+              <p style={{ fontSize: 14, color: "#64748b", marginBottom: 28, lineHeight: 1.65 }}>
+                U holda raqamingizni qoldiring va biz barcha savollaringizga javob beramiz.
+              </p>
+              <LeadForm formLocation="top" />
+            </div>
+
+            {/* RIGHT: Slider */}
+            <div className="hero-slider" style={{ minHeight: 480 }}>
+              <HeroSlider />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </>
   );
 };
 
